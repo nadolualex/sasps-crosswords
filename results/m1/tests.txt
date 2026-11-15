@@ -1,0 +1,23 @@
+test_all_policies_all_entries_many_seeds (tests.test_game.EquivalenceTests.test_all_policies_all_entries_many_seeds) ... ok
+test_mixed_commands_with_errors_and_rng (tests.test_game.EquivalenceTests.test_mixed_commands_with_errors_and_rng) ... ok
+test_completed_entry_noop_without_rng_consumption (tests.test_game.GameRulesTests.test_completed_entry_noop_without_rng_consumption) ... ok
+test_correct_answers_solve (tests.test_game.GameRulesTests.test_correct_answers_solve) ... ok
+test_crossing_is_shared (tests.test_game.GameRulesTests.test_crossing_is_shared) ... ok
+test_first_skips_correct_and_repairs_wrong (tests.test_game.GameRulesTests.test_first_skips_correct_and_repairs_wrong) ... ok
+test_initial_grid (tests.test_game.GameRulesTests.test_initial_grid) ... ok
+test_invalid_answer_atomic (tests.test_game.GameRulesTests.test_invalid_answer_atomic) ... ok
+test_invalid_variant (tests.test_game.GameRulesTests.test_invalid_variant) ... ok
+test_locked_cell_conflict_atomic (tests.test_game.GameRulesTests.test_locked_cell_conflict_atomic) ... ok
+test_lowercase_and_erasure (tests.test_game.GameRulesTests.test_lowercase_and_erasure) ... ok
+test_random_reproducible (tests.test_game.GameRulesTests.test_random_reproducible) ... ok
+test_unknown_policy_and_entry_atomic (tests.test_game.GameRulesTests.test_unknown_policy_and_entry_atomic) ... ok
+test_word_reveals_only_unresolved (tests.test_game.GameRulesTests.test_word_reveals_only_unresolved) ... ok
+test_invalid_cells_rejected (tests.test_game.PuzzleValidationTests.test_invalid_cells_rejected) ... ok
+test_invalid_shapes_and_symbols (tests.test_game.PuzzleValidationTests.test_invalid_shapes_and_symbols) ... ok
+test_missing_or_duplicate_entries (tests.test_game.PuzzleValidationTests.test_missing_or_duplicate_entries) ... ok
+test_orphan_cell_rejected (tests.test_game.PuzzleValidationTests.test_orphan_cell_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.329s
+
+OK

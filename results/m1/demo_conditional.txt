@@ -1,0 +1,50 @@
+Crosswords | conditional | seed=42
+1A: Animal domestic folosit la calarie (3)
+2A: Sentiment de lipsa a unei persoane dragi (3)
+3A: Intindere de apa statatoare (3)
+1D: Setul de instructiuni al programului, cu articol hotarat (5)
+. . . # #
+. # # # #
+. . . # #
+. # # # #
+. . . # #
+> hint 1A first
+Indiciu: (((0, 0), 'C'),)
+C . . # #
+. # # # #
+. . . # #
+. # # # #
+. . . # #
+> hint 2A random
+Indiciu: (((2, 2), 'R'),)
+C . . # #
+. # # # #
+. . R # #
+. # # # #
+. . . # #
+> hint 1D word
+Indiciu: (((1, 0), 'O'), ((2, 0), 'D'), ((3, 0), 'U'), ((4, 0), 'L'))
+C . . # #
+O # # # #
+D . R # #
+U # # # #
+L . . # #
+> answer 1A CAL
+C A L # #
+O # # # #
+D . R # #
+U # # # #
+L . . # #
+> answer 2A DOR
+C A L # #
+O # # # #
+D O R # #
+U # # # #
+L . . # #
+> answer 3A LAC
+C A L # #
+O # # # #
+D O R # #
+U # # # #
+L A C # #
+Felicitari! Grila rezolvata. Indicii folosite: 3
