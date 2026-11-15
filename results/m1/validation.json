@@ -1,14 +1,19 @@
 {
-  "verified_at_utc": "2026-11-15T18:41:53.845611+00:00",
+  "verified_at_utc": "2026-11-15T18:57:41.867750+00:00",
   "python": "3.13.2 | packaged by Anaconda, Inc. | (main, Feb  6 2025, 12:55:35) [Clang 14.0.6 ]",
   "tests_passed": 18,
   "demos": "both solved; all output except variant header identical",
   "benchmark": "all raw rows, paired summaries and complete RNG/state checksum verified",
   "pptx": "12 slides; valid ZIP/XML; notes, 570s timing, diagram arrows and shape bounds checked",
   "pdf": "12 readable pages; generated from same layout, not PowerPoint rendering",
+  "authors": [
+    "Nadolu Alex",
+    "Dalya Tobescu"
+  ],
+  "author_checks": "both names visible on title/contributors and notes; PPTX/PDF/manifest metadata verified; no account names in presentation",
   "sha256": {
-    "presentation/SASPS_M1_Crosswords.pptx": "c7bd6fcf60e364a753db6657b8aa60c2d15fd2f12a215ae5acdb0ac5e618c598",
-    "presentation/SASPS_M1_Crosswords_slides.pdf": "4d78fa5ed91b3d7c2a37eb6b4c9241bd59ee2ef8274e9e39f3a00f618319147f",
+    "presentation/SASPS_M1_Crosswords.pptx": "dfe95da756c1867b5efc71f84ae61dcde740e590ab29c3738c6af8f621eb91e7",
+    "presentation/SASPS_M1_Crosswords_slides.pdf": "1125cb5053c0312e13b6ea969222bc03198dd2c9e0f408c97246aa1772d90336",
     "results/m1/raw.csv": "fe283c52a2b7ed05b8fdbfbe1d9db0b319ce7dbb9ee77272e511160e2760e925",
     "results/m1/summary.json": "04eb321d71e8d2c434f753d4a42251d425a636d066fbe616c7fd993086767ebe"
   },

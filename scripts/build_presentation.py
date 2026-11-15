@@ -17,6 +17,7 @@ OUT = ROOT / "presentation"
 W, H = 13.333333, 7.5
 BG, PANEL, WHITE, MUTED = "101A2C", "1B2B43", "F5F7FC", "B8C7DD"
 TEAL, GOLD, BLUE = "5BD8BB", "F1BE68", "88B4FF"
+AUTHORS = ("Nadolu Alex", "Dalya Tobescu")
 
 
 def fonts() -> str:
@@ -100,13 +101,14 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p = Page("Crosswords: Strategy vs condiționale", 25,
              "Introduceți tema confirmată și delimitarea: acesta este M1, nu M3. "
              "Același joc și aceiași algoritmi, două mecanisme de dispatch. "
-             "Nu anticipăm un câștig de performanță. Numele academic și echipa trebuie confirmate.")
+             "Nu anticipăm un câștig de performanță. Autorii sunt Nadolu Alex și Dalya Tobescu, "
+             "doi contribuitori confirmați; atribuțiile individuale rămân de completat.")
     p.text(.65, 1.95, 8.5, 1.75, "Același joc.\nTrei politici.\nDouă mecanisme de selecție.", 32, WHITE, True)
     p.text(.65, 4.25, 7.2, 1.25, "Investigăm structura și extensibilitatea, fără a schimba regulile sau a penaliza baseline-ul.", 23, MUTED)
     p.box(.65, 6.05, 7.9, .55, PANEL)
     p.text(.85, 6.15, 7.5, .35, "M1: prototip + pilot exploratoriu  |  9:30 + 2 min Q&A", 16, TEAL, True)
     p.grid(9.2, 2.1, .61, ("CAL##", "O####", "DOR##", "U####", "LAC##"))
-    p.text(9.2, 5.45, 3.5, .8, "Cont: nadolualex\nNume / echipă: de completat", 16, MUTED)
+    p.text(9.2, 5.45, 3.5, 1.1, "Autori\n" + "\n".join(AUTHORS), 18, MUTED)
     pages.append(p)
 
     p = Page("Problema, obiectivele și aplicația", 40,
@@ -278,20 +280,21 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
            "Extensie controlată / memorie.\n"
            "Replicări multi-process robuste.\n"
            "Concluzii statistice / articol M3.\n"
-           "Echipă și roluri umane confirmate.\n"
+           "Atribuții individuale confirmate.\n"
            "Articolul final rămâne pentru M3.", GOLD, 21)
     pages.append(p)
 
-    p = Page("Echipă, progres real și plan până la M2", 45,
-             "Nu inventăm membri sau sprinturi. Contul este nadolualex, numele academic rămâne "
-             "de completat. Responsabilitățile pot fi ale aceluiași student. Pregătirea curentă "
-             "este asistată AI. Sprinturile viitoare depind de calendarul cursului; M2 s12, M3 s14.")
+    p = Page("Contribuitori, progres real și plan până la M2", 45,
+             "Contribuitorii confirmați sunt Nadolu Alex și Dalya Tobescu. Sunt exact două persoane, "
+             "fără nume de echipă. Repartizarea rolurilor și contribuțiile individuale rămân de completat; "
+             "nu atribuim retroactiv activități sau ore. Pregătirea curentă este asistată AI. "
+             "Sprinturile viitoare depind de calendarul cursului; M2 s12, M3 s14.")
     p.box(.6, 1.75, 4.6, 4.95)
-    p.text(.85, 2.0, 4.1, .6, "De confirmat", 23, GOLD, True)
-    p.text(.85, 2.9, 4.1, 2.55,
-           "Nume academic / membri.\n"
-           "Roluri: motor + teste,\nexperimente, prezentare.\n"
-           "Nu sunt persoane distincte presupuse.", 21)
+    p.text(.85, 2.0, 4.1, .6, "Contribuitori", 23, GOLD, True)
+    p.text(.85, 2.85, 4.1, .85, "\n".join(AUTHORS), 21, WHITE, True)
+    p.text(.85, 4.0, 4.1, 1.25,
+           "2 contribuitori confirmați.\n"
+           "Roluri și atribuții individuale:\nde completat după confirmare.", 18)
     p.text(.85, 5.7, 4.1, .8, "Pregătire asistată AI;\nvalidare academică obligatorie.", 18, MUTED)
     for y, title, body in (
         (1.75, "ACUM / M1", "Prototip, teste, pilot, PPTX. Nu inventăm sprinturi trecute."),
@@ -316,7 +319,7 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p.text(.8, 4.75, 11.7, 1.35,
            "Referințe publice: Refactoring.Guru — Strategy; pyperf — Run benchmarks.\n"
            "URL-uri și metodologie completă: docs/METHODOLOGY.md.\n"
-           "AI declarat; echipa și contribuțiile umane trebuie confirmate.", 18, MUTED)
+           "AI declarat; atribuțiile individuale rămân de completat.", 18, MUTED)
     p.text(.8, 6.3, 11.7, .4, "9:30 prezentare  /  2:00 întrebări", 19, GOLD, True)
     pages.append(p)
     for index, page in enumerate(pages, 1):
@@ -329,11 +332,12 @@ def export(pages: list[Page]) -> None:
     presentation = Presentation()
     presentation.slide_width, presentation.slide_height = Inches(W), Inches(H)
     presentation.core_properties.title = "SASPS M1 — Crosswords: Strategy pattern vs conditionale"
-    presentation.core_properties.author = "Pregatire asistata GitHub Copilot; echipa de confirmat"
+    presentation.core_properties.author = "; ".join(AUTHORS)
+    presentation.core_properties.last_modified_by = ""
     presentation.core_properties.subject = "Milestone 1; prototip si pilot exploratoriu"
     pdf = canvas.Canvas(str(OUT / "SASPS_M1_Crosswords_slides.pdf"), pagesize=(W * 72, H * 72))
     pdf.setTitle("SASPS M1 — slide-uri, nu articol stiintific")
-    pdf.setAuthor("Pregatire asistata AI; echipa de confirmat")
+    pdf.setAuthor("; ".join(AUTHORS))
     for index, page in enumerate(pages, 1):
         slide = presentation.slides.add_slide(presentation.slide_layouts[6])
         slide.background.fill.solid()
@@ -392,6 +396,8 @@ def export(pages: list[Page]) -> None:
     presentation.save(OUT / "SASPS_M1_Crosswords.pptx")
     pdf.save()
     manifest = {
+        "authors": list(AUTHORS),
+        "contributors_count": len(AUTHORS),
         "slides": [{"number": i, "title": p.title, "seconds": p.seconds,
                     "speaker_notes": p.notes} for i, p in enumerate(pages, 1)],
         "total_seconds": sum(p.seconds for p in pages),

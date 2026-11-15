@@ -1,10 +1,15 @@
 {
+  "authors": [
+    "Nadolu Alex",
+    "Dalya Tobescu"
+  ],
+  "contributors_count": 2,
   "slides": [
     {
       "number": 1,
       "title": "Crosswords: Strategy vs condiționale",
       "seconds": 25,
-      "speaker_notes": "Introduceți tema confirmată și delimitarea: acesta este M1, nu M3. Același joc și aceiași algoritmi, două mecanisme de dispatch. Nu anticipăm un câștig de performanță. Numele academic și echipa trebuie confirmate."
+      "speaker_notes": "Introduceți tema confirmată și delimitarea: acesta este M1, nu M3. Același joc și aceiași algoritmi, două mecanisme de dispatch. Nu anticipăm un câștig de performanță. Autorii sunt Nadolu Alex și Dalya Tobescu, doi contribuitori confirmați; atribuțiile individuale rămân de completat."
     },
     {
       "number": 2,
@@ -62,9 +67,9 @@
     },
     {
       "number": 11,
-      "title": "Echipă, progres real și plan până la M2",
+      "title": "Contribuitori, progres real și plan până la M2",
       "seconds": 45,
-      "speaker_notes": "Nu inventăm membri sau sprinturi. Contul este nadolualex, numele academic rămâne de completat. Responsabilitățile pot fi ale aceluiași student. Pregătirea curentă este asistată AI. Sprinturile viitoare depind de calendarul cursului; M2 s12, M3 s14."
+      "speaker_notes": "Contribuitorii confirmați sunt Nadolu Alex și Dalya Tobescu. Sunt exact două persoane, fără nume de echipă. Repartizarea rolurilor și contribuțiile individuale rămân de completat; nu atribuim retroactiv activități sau ore. Pregătirea curentă este asistată AI. Sprinturile viitoare depind de calendarul cursului; M2 s12, M3 s14."
     },
     {
       "number": 12,

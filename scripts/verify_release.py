@@ -18,7 +18,7 @@ from pptx.enum.shapes import MSO_SHAPE, MSO_SHAPE_TYPE
 from pypdf import PdfReader
 
 from scripts.benchmark import check_equivalence
-from scripts.build_presentation import build_pages
+from scripts.build_presentation import AUTHORS, build_pages
 from scripts.code_metrics import collect
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -90,6 +90,7 @@ def main() -> None:
     metrics = json.loads((RESULTS / "code_metrics.json").read_text(encoding="utf-8"))
     require(metrics == collect(), "Metricile codului nu mai corespund surselor.")
     pages = build_pages(summary, metrics)
+    require(AUTHORS == ("Nadolu Alex", "Dalya Tobescu"), "Autori neconformi.")
     require(len(pages) == 12 and sum(page.seconds for page in pages) == 570,
             "Numar / durata slide-uri invalide.")
     deck_path = ROOT / "presentation/SASPS_M1_Crosswords.pptx"
@@ -97,12 +98,24 @@ def main() -> None:
         require(archive.testzip() is None, "Arhiva PPTX corupta.")
         for name in archive.namelist():
             if name.endswith((".xml", ".rels")):
-                ET.fromstring(archive.read(name))
+                data = archive.read(name)
+                ET.fromstring(data)
+                require(not any(account in data.lower()
+                                for account in (b"nadolualex", b"rnadolu_adobe")),
+                        "Cont GitHub prezent in PPTX.")
     deck = Presentation(deck_path)
     require(len(deck.slides) == 12, "PPTX nu are 12 slide-uri.")
     manifest = json.loads((ROOT / "presentation/manifest.json").read_text(encoding="utf-8"))
     require(manifest["total_seconds"] == 570 and manifest["qa_seconds"] == 120,
             "Manifest temporal invalid.")
+    require(manifest["authors"] == list(AUTHORS) and manifest["contributors_count"] == 2,
+            "Contribuitori manifest neconformi.")
+    require(deck.core_properties.author == "; ".join(AUTHORS), "Autori metadata PPTX incorecti.")
+    for index in (0, 10):
+        visible = "\n".join(shape.text for shape in deck.slides[index].shapes if shape.has_text_frame)
+        notes = deck.slides[index].notes_slide.notes_text_frame.text
+        require(all(author in visible and author in notes for author in AUTHORS),
+                "Autorii lipsesc din titlu/contributii sau note.")
     all_text = []
     for index, slide in enumerate(deck.slides):
         notes = slide.notes_slide.notes_text_frame.text
@@ -128,8 +141,15 @@ def main() -> None:
     reader = PdfReader(pdf_path, strict=True)
     require(len(reader.pages) == 12, "PDF preview nu are 12 pagini.")
     require(all(page.extract_text().strip() for page in reader.pages), "Pagina PDF fara text.")
-    require("DOR" in "\n".join(page.extract_text() for page in reader.pages),
-            "Demo-ul nu apare in PDF.")
+    pdf_text = "\n".join(page.extract_text() for page in reader.pages)
+    require("DOR" in pdf_text, "Demo-ul nu apare in PDF.")
+    require(reader.metadata.author == "; ".join(AUTHORS), "Autori metadata PDF incorecti.")
+    for index in (0, 10):
+        require(all(author in reader.pages[index].extract_text() for author in AUTHORS),
+                "Autorii lipsesc din titlu/contributii PDF.")
+    academic_text = pdf_text + json.dumps(manifest, ensure_ascii=False) + deck.core_properties.author
+    require(not any(account in academic_text.lower() for account in ("nadolualex", "rnadolu_adobe")),
+            "Cont GitHub prezent in materialele prezentarii.")
     report = {
         "verified_at_utc": datetime.now(timezone.utc).isoformat(),
         "python": sys.version,
@@ -138,6 +158,8 @@ def main() -> None:
         "benchmark": "all raw rows, paired summaries and complete RNG/state checksum verified",
         "pptx": "12 slides; valid ZIP/XML; notes, 570s timing, diagram arrows and shape bounds checked",
         "pdf": "12 readable pages; generated from same layout, not PowerPoint rendering",
+        "authors": list(AUTHORS),
+        "author_checks": "both names visible on title/contributors and notes; PPTX/PDF/manifest metadata verified; no account names in presentation",
         "sha256": {
             str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
             for path in (deck_path, pdf_path, RESULTS / "raw.csv", RESULTS / "summary.json")

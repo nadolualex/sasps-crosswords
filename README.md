@@ -1,5 +1,8 @@
 # SASPS — Crosswords: Strategy pattern vs condiționale
 
+**Autori: Nadolu Alex și Dalya Tobescu.** Doi contribuitori confirmați, fără
+nume de echipă; atribuțiile individuale rămân de completat.
+
 **Milestone 1: prototip și pilot exploratoriu, nu proiect final M3.**
 Același joc de cuvinte încrucișate, două variante care diferă doar prin
 dispatch-ul politicilor de indicii. Runtime-ul și testele folosesc Python stdlib.
@@ -93,9 +96,9 @@ fără a pretinde randare identică în orice versiune PowerPoint.
 
 Repository țintă **privat**: https://github.com/nadolualex/sasps-crosswords .
 Release-ul M1 are commit real și tag `M1`; nu există tag-uri M2/M3.
-Identitatea locală folosește contul confirmat
-`nadolualex` și adresa GitHub noreply verificată; nu reprezintă un nume academic
-confirmat. Nu modificăm configurația globală și nu folosim contul Adobe.
+Identitatea Git locală folosește numele Nadolu Alex și adresa personală noreply
+verificată. Commit-urile individuale necesită contribuții reale ale autorului respectiv.
+Nu modificăm configurația globală și nu folosim contul profesional.
 
 Contul personal a fost autorizat și verificat ca `nadolualex`. Pentru o clonă
 sau o publicare ulterioară, verifică din nou identitatea înainte de push.
@@ -136,7 +139,8 @@ materiale private. Acest proiect nu conține suportul de curs.
 
 Prototipul, testele, documentația și prezentarea au fost pregătite cu asistență AI
 GitHub Copilot. Nu sunt dovezi de muncă manuală a unor membri și nu reprezintă
-ore/sprinturi istorice. Studentul trebuie să înțeleagă, să verifice și să adapteze
-livrabilele, să confirme echipa și rolurile și să respecte politica de utilizare
+ore/sprinturi istorice. Autorii trebuie să înțeleagă, să verifice și să adapteze
+livrabilele, să confirme atribuțiile individuale și să respecte politica de utilizare
 AI și cerințele profesorului. Vezi [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md).
-Numele academice și distribuția rolurilor rămân explicit de completat.
+Autorii confirmați sunt Nadolu Alex și Dalya Tobescu; numai distribuția rolurilor
+și contribuțiile individuale rămân de completat.
