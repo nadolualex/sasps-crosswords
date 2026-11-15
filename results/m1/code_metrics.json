@@ -1,0 +1,14 @@
+{
+  "conditional": {
+    "file": "crosswords/conditional.py",
+    "nonblank_noncomment_lines": 12,
+    "class_definitions_including_protocol": 1,
+    "dispatcher_select_if_nodes": 3
+  },
+  "strategy": {
+    "file": "crosswords/strategy.py",
+    "nonblank_noncomment_lines": 27,
+    "class_definitions_including_protocol": 5,
+    "dispatcher_select_if_nodes": 1
+  }
+}

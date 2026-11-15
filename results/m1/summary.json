@@ -1,0 +1,86 @@
+{
+  "status": "exploratory_single_machine_no_statistical_inference",
+  "measured_at_utc": "2026-11-15T18:33:53.113576+00:00",
+  "python": "3.13.2 | packaged by Anaconda, Inc. | (main, Feb  6 2025, 12:55:35) [Clang 14.0.6 ]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "timer": "time.perf_counter_ns",
+  "gc": "disabled only during timing; collected before each timed batch",
+  "seed": 2026,
+  "repeats": 30,
+  "games_per_trial": 256,
+  "warmups_per_variant": 3,
+  "calls_per_trial": 2048,
+  "workload": [
+    [
+      "1A",
+      "first"
+    ],
+    [
+      "2A",
+      "random"
+    ],
+    [
+      "1D",
+      "random"
+    ],
+    [
+      "3A",
+      "word"
+    ],
+    [
+      "1A",
+      "random"
+    ],
+    [
+      "1D",
+      "word"
+    ],
+    [
+      "2A",
+      "first"
+    ],
+    [
+      "2A",
+      "word"
+    ]
+  ],
+  "excludes": [
+    "game/dispatcher construction",
+    "I/O",
+    "checksum",
+    "correctness checks"
+  ],
+  "includes": [
+    "context creation",
+    "dispatch",
+    "policy algorithm",
+    "state mutation"
+  ],
+  "equivalence_state_sha256": "eb588d7c0f4d1a1d5f956cc58c315f17577ff1d73e38d6c86bbf7e5a7bf306e4",
+  "metrics": {
+    "conditional": {
+      "median_ns_per_call": 1099.995849609375,
+      "q1_ns_per_call": 1078.466064453125,
+      "q3_ns_per_call": 1167.2264404296875,
+      "min_ns_per_call": 1014.302734375,
+      "max_ns_per_call": 1278.80859375
+    },
+    "strategy": {
+      "median_ns_per_call": 1162.46533203125,
+      "q1_ns_per_call": 1139.4803466796875,
+      "q3_ns_per_call": 1217.9210205078125,
+      "min_ns_per_call": 1091.2880859375,
+      "max_ns_per_call": 1309.26513671875
+    }
+  },
+  "median_paired_strategy_over_conditional": 1.0441670014380748,
+  "limitations": [
+    "One tiny puzzle, one workload and one machine.",
+    "Fixed seeds and identical games are intentional controls, not independent users.",
+    "Timing noise, CPU frequency and competing processes are uncontrolled.",
+    "Full-engine timings do not isolate dispatch cost numerically.",
+    "No p-values, confidence intervals or general performance claims.",
+    "Construction/memory cost and extension effort are not measured at M1."
+  ]
+}
