@@ -12,7 +12,7 @@
   ],
   "author_checks": "both names visible on title/contributors and notes; PPTX/PDF/manifest metadata verified; no account names in presentation",
   "sha256": {
-    "presentation/SASPS_M1_Crosswords.pptx": "316473495493d6fe038285231c5047d1982536c69a1886548c8448cde0fed55a",
+    "presentation/SASPS_M1_Crosswords.pptx": "2814f7e18c501c4c05c73146ddc3d5767a998e4b0748f245257da66c2d173cd0",
     "presentation/SASPS_M1_Crosswords_slides.pdf": "c7aef5a43a3603e99c8dc6a44cfb655d64b907d363272508ab50fa1f49a5eaaf",
     "results/m1/raw.csv": "fe283c52a2b7ed05b8fdbfbe1d9db0b319ce7dbb9ee77272e511160e2760e925",
     "results/m1/summary.json": "04eb321d71e8d2c434f753d4a42251d425a636d066fbe616c7fd993086767ebe"
