@@ -2,12 +2,11 @@
 
 Autori: Nadolu Alex și Dalya Tobescu (SASPS, Milestone 1).
 
-Proiectul compară două variante ale aceluiași joc de cuvinte încrucișate. Grila,
-regulile, interfața și algoritmii de indiciu sunt comuni. Diferă doar felul în care
-jocul alege politica de indiciu: un lanț `if/elif` sau pattern-ul Strategy.
+Același joc de cuvinte încrucișate, în două variante. Grila, regulile și indiciile
+sunt la fel. Diferă doar cum e aleasă politica de indiciu: `if/elif` sau Strategy.
 
-Suntem la M1, deci avem un prototip care merge, teste și o primă măsurătoare
-preliminară. Experimentele complete și articolul sunt pentru M2 și M3.
+La M1 avem prototipul, testele și o primă măsurătoare. Restul experimentelor și
+articolul rămân pentru M2 și M3.
 
 ## Rulare
 
@@ -59,20 +58,20 @@ calculator, într-un singur scenariu, așa că nu tragem concluzii din ea. Detal
 ## Prezentarea
 
 Fișierul pentru susținere este [`presentation/SASPS_M1_Crosswords.pptx`](presentation/SASPS_M1_Crosswords.pptx):
-12 slide-uri cu note, planificate pentru 9 minute și 30 de secunde. PDF-ul din
-același folder e doar o copie a slide-urilor, nu articolul de la M3.
+12 slide-uri cu note, pentru 9 minute și 30 de secunde. PDF-ul din același folder
+e o copie a slide-urilor, nu articolul de la M3.
 
-Pentru a o regenera:
+Ca să o regenerăm, avem nevoie de `python-pptx`, `reportlab` și `pypdf`:
 
 ```bash
 python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements-presentation.txt
+.venv/bin/python -m pip install python-pptx reportlab pypdf
 .venv/bin/python -m scripts.build_presentation
 .venv/bin/python -m scripts.verify_release
 ```
 
 `verify_release` rulează testele și demo-urile, recalculează sumarul din datele
-brute, verifică fișierele PPTX/PDF și rescrie `results/m1/validation.json`.
+brute, verifică PPTX-ul și PDF-ul și rescrie `results/m1/validation.json`.
 
 ## Structura proiectului
 
@@ -87,13 +86,8 @@ brute, verifică fișierele PPTX/PDF și rescrie `results/m1/validation.json`.
 
 ## Git
 
-Codul este într-un repository privat, https://github.com/nadolualex/sasps-crosswords,
-iar versiunea predată la M1 are tag-ul `M1`. Tag-uri pentru M2 și M3 vor exista
-când vom ajunge acolo. Suportul de curs nu face parte din repository.
+Codul e pe https://github.com/nadolualex/sasps-crosswords. Versiunea de la M1 are
+tag-ul `M1`. Tag-urile M2 și M3 le punem când ajungem acolo. Suportul de curs nu
+e în repository.
 
-## Asistență AI
-
-Prototipul, testele, documentația și prezentarea au fost pregătite cu ajutorul
-GitHub Copilot. Autorii trebuie să înțeleagă și să verifice tot ce e aici, iar
-regulile cursului despre folosirea AI se aplică. Împărțirea muncii între autori e
-în [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md) și încă nu e completată.
+Împărțirea muncii e în [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md).

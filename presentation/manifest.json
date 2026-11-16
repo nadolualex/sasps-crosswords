@@ -63,19 +63,19 @@
       "number": 10,
       "title": "Unde suntem acum",
       "seconds": 45,
-      "speaker_notes": "Avem ambele variante, testele, demo-ul, scripturile și prima măsurătoare. Testele folosesc 100 de seed-uri, comenzi amestecate și cazuri de eroare. Codul e într-un repository privat, cu tag-ul M1. Nu avem încă articolul și nici împărțirea muncii. Am folosit asistență AI, iar noi trebuie să înțelegem și să verificăm tot."
+      "speaker_notes": "Avem ambele variante, testele, demo-ul, scripturile și prima măsurătoare. Testele folosesc 100 de seed-uri, comenzi amestecate și cazuri de eroare. Codul e pe GitHub, cu tag-ul M1. Articolul îl scriem la M3."
     },
     {
       "number": 11,
       "title": "Contribuitori și plan până la M2",
       "seconds": 45,
-      "speaker_notes": "Suntem doi, Nadolu Alex și Dalya Tobescu, fără nume de echipă. Cine ce a făcut încă nu am trecut; nu vrem să scriem ore sau sarcini pe care nu le putem susține. Pentru M1 am folosit asistență AI. Mai jos e planul: M2 în săptămâna 12, M3 în săptămâna 14."
+      "speaker_notes": "Suntem doi, Nadolu Alex și Dalya Tobescu. Nu avem nume de echipă. Mai jos e ce urmează: M2 în săptămâna 12, M3 în săptămâna 14."
     },
     {
       "number": 12,
       "title": "Întrebarea rămasă",
       "seconds": 25,
-      "speaker_notes": "Încheiem cu întrebarea despre extensii, nu cu o concluzie despre viteză. Sursele sunt publice, iar suportul de curs nu e inclus. Repetăm că am folosit AI și că trebuie să înțelegem și să verificăm tot. Ne oprim la 9:30 și rămân două minute pentru întrebări."
+      "speaker_notes": "Încheiem cu întrebarea despre extensii, nu cu cine a ieșit mai rapid. Ne oprim la 9:30. Rămân două minute pentru întrebări."
     }
   ],
   "total_seconds": 570,

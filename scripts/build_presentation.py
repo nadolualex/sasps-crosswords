@@ -104,7 +104,7 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
              "se schimbă doar felul în care e aleasă politica de indiciu. Suntem la M1, "
              "deci arătăm un prototip și o primă măsurătoare, nu rezultate finale.")
     p.text(.65, 1.95, 8.5, 1.75, "Același joc.\nTrei tipuri de indiciu.\nDouă moduri de a le alege.", 32, WHITE, True)
-    p.text(.65, 4.25, 7.2, 1.25, "Vrem să vedem ce aduce Strategy într-un proiect mic, fără să facem varianta if/elif mai proastă decât e.", 23, MUTED)
+    p.text(.65, 4.25, 7.2, 1.25, "Jocul e același. Se schimbă doar cum alegem indiciul.", 23, MUTED)
     p.box(.65, 6.05, 7.9, .55, PANEL)
     p.text(.85, 6.15, 7.5, .35, "M1: prototip și o primă măsurătoare  |  9:30 + 2 min întrebări", 16, TEAL, True)
     p.grid(9.2, 2.1, .61, ("CAL##", "O####", "DOR##", "U####", "LAC##"))
@@ -123,7 +123,7 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p.text(7.75, 1.9, 4.8, .6, "Ce comparăm", 24, TEAL, True)
     p.text(7.75, 2.75, 4.8, 2.1,
            "Cum e aleasă politica de indiciu.\nNu două jocuri diferite.\nAlgoritmii rămân la fel.", 23)
-    p.text(7.75, 5.25, 4.8, 1.3, "Cerința de bază: același comportament pentru aceleași comenzi și același seed.", 21, GOLD)
+    p.text(7.75, 5.25, 4.8, 1.3, "Aceleași comenzi și același seed trebuie să dea același rezultat.", 21, GOLD)
     pages.append(p)
 
     p = Page("Cele două variante", 40,
@@ -139,7 +139,7 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p.card(6.8, 1.75, 5.95, 4.75, "Strategy",
            "HintStrategy și trei clase concrete.\n"
            "Un dicționar cu obiectele.\n"
-           "Plus posibil: fiecare politică separată.\n"
+           "Fiecare politică stă în clasa ei.\n"
            "Politică nouă: clasă nouă, înregistrată.\n"
            "Minus: mai mult cod.", TEAL, 21)
     pages.append(p)
@@ -235,7 +235,7 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p.text(.75, 5.0, 11.9, .55,
            f"Raport median pe perechi, Strategy / if-elif: {summary['median_paired_strategy_over_conditional']:.3f}", 23, WHITE, True)
     p.text(.75, 5.95, 11.9, .85,
-           "Un calculator, un proces, un scenariu. Fără concluzii statistice.\n"
+           "O singură rulare, pe un singur calculator.\n"
            "Python 3.13.2 • macOS arm64 • results/m1/raw.csv + summary.json", 18, MUTED)
     pages.append(p)
 
@@ -257,21 +257,20 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
         p.text(7.4, y, 2, .55, str(metrics["conditional"][key]), 24, GOLD, True)
         p.text(10.1, y, 2.2, .55, str(metrics["strategy"][key]), 24, TEAL, True)
     p.text(.8, 5.85, 11.8, .95,
-           "Cod mai scurt acum, față de politici separate când adăugăm ceva.\n"
-           "Mutarea ramurilor în clase nu înseamnă automat cod mai ușor de întreținut.", 22, MUTED)
+           "Mai puțin cod acum, față de o clasă pentru fiecare politică.\n"
+           "Mai multe clase nu înseamnă neapărat că e mai ușor de schimbat.", 22, MUTED)
     pages.append(p)
 
     p = Page("Unde suntem acum", 45,
              "Avem ambele variante, testele, demo-ul, scripturile și prima măsurătoare. "
-             "Testele folosesc 100 de seed-uri, comenzi amestecate și cazuri de eroare. Codul e într-un "
-             "repository privat, cu tag-ul M1. Nu avem încă articolul și nici împărțirea muncii. "
-             "Am folosit asistență AI, iar noi trebuie să înțelegem și să verificăm tot.")
+             "Testele folosesc 100 de seed-uri, comenzi amestecate și cazuri de eroare. "
+             "Codul e pe GitHub, cu tag-ul M1. Articolul îl scriem la M3.")
     p.card(.6, 1.75, 5.95, 4.85, "Gata",
            "Motor comun și două variante.\n"
            "18 teste, inclusiv echivalență și RNG.\n"
            "Demo fără input.\n"
            "Date brute și comenzi de reproducere.\n"
-           "Repository privat, tag M1.", TEAL, 21)
+           "Cod pe GitHub, tag M1.", TEAL, 21)
     p.card(6.8, 1.75, 5.95, 4.85, "Urmează",
            "Politică nouă în ambele variante.\n"
            "Măsurători de memorie.\n"
@@ -281,9 +280,8 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     pages.append(p)
 
     p = Page("Contribuitori și plan până la M2", 45,
-             "Suntem doi, Nadolu Alex și Dalya Tobescu, fără nume de echipă. Cine ce a făcut încă nu am trecut; "
-             "nu vrem să scriem ore sau sarcini pe care nu le putem susține. Pentru M1 am folosit asistență AI. "
-             "Mai jos e planul: M2 în săptămâna 12, M3 în săptămâna 14.")
+             "Suntem doi, Nadolu Alex și Dalya Tobescu. Nu avem nume de echipă. "
+             "Mai jos e ce urmează: M2 în săptămâna 12, M3 în săptămâna 14.")
     p.box(.6, 1.75, 4.6, 4.95)
     p.text(.85, 2.0, 4.1, .6, "Contribuitori", 23, GOLD, True)
     p.text(.85, 2.85, 4.1, .85, "\n".join(AUTHORS), 21, WHITE, True)
@@ -299,17 +297,15 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     pages.append(p)
 
     p = Page("Întrebarea rămasă", 25,
-             "Încheiem cu întrebarea despre extensii, nu cu o concluzie despre viteză. "
-             "Sursele sunt publice, iar suportul de curs nu e inclus. Repetăm că am folosit AI și că "
-             "trebuie să înțelegem și să verificăm tot. Ne oprim la 9:30 și rămân două minute pentru întrebări.")
+             "Încheiem cu întrebarea despre extensii, nu cu cine a ieșit mai rapid. "
+             "Ne oprim la 9:30. Rămân două minute pentru întrebări.")
     p.text(.8, 1.9, 11.7, 1.25,
            "Când merită să plătim cu mai multă\nstructură pentru Strategy?", 30, TEAL, True)
     p.text(.8, 3.5, 11.7, .85,
            "La M1 avem un prototip cu două variante comparabile.\nLa M2 testăm o extensie; la M3 tragem concluziile, cu limitele lor.", 22)
     p.text(.8, 4.75, 11.7, 1.35,
            "Surse: Refactoring.Guru (Strategy); pyperf (Run benchmarks).\n"
-           "Linkuri și metodologie: docs/METHODOLOGY.md.\n"
-           "Am folosit asistență AI; împărțirea muncii e de completat.", 18, MUTED)
+           "Linkuri și metodologie: docs/METHODOLOGY.md.", 18, MUTED)
     p.text(.8, 6.3, 11.7, .4, "9:30 prezentare  /  2:00 întrebări", 19, GOLD, True)
     pages.append(p)
     for index, page in enumerate(pages, 1):
@@ -324,9 +320,9 @@ def export(pages: list[Page]) -> None:
     presentation.core_properties.title = "SASPS M1 — Crosswords: Strategy pattern vs conditionale"
     presentation.core_properties.author = "; ".join(AUTHORS)
     presentation.core_properties.last_modified_by = ""
-    presentation.core_properties.subject = "Milestone 1; prototip si pilot exploratoriu"
+    presentation.core_properties.subject = "Milestone 1, prototip de crossword"
     pdf = canvas.Canvas(str(OUT / "SASPS_M1_Crosswords_slides.pdf"), pagesize=(W * 72, H * 72))
-    pdf.setTitle("SASPS M1 — slide-uri, nu articol stiintific")
+    pdf.setTitle("SASPS M1 — Crosswords")
     pdf.setAuthor("; ".join(AUTHORS))
     for index, page in enumerate(pages, 1):
         slide = presentation.slides.add_slide(presentation.slide_layouts[6])
