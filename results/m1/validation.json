@@ -1,5 +1,5 @@
 {
-  "verified_at_utc": "2026-11-16T08:13:56.338576+00:00",
+  "verified_at_utc": "2026-11-16T08:16:05.668204+00:00",
   "python": "3.13.2 | packaged by Anaconda, Inc. | (main, Feb  6 2025, 12:55:35) [Clang 14.0.6 ]",
   "tests_passed": 18,
   "demos": "both solved; all output except variant header identical",
@@ -12,8 +12,8 @@
   ],
   "author_checks": "both names visible on title/contributors and notes; PPTX/PDF/manifest metadata verified; no account names in presentation",
   "sha256": {
-    "presentation/SASPS_M1_Crosswords.pptx": "f18e3bd185d56bd40f23368cb74d0a74feb27dfb957a58771ed7bf825830e6e8",
-    "presentation/SASPS_M1_Crosswords_slides.pdf": "f1375e1df7ee03721e22f8301e552fb7306c16810a5fe3ddfff8a883cfd73f65",
+    "presentation/SASPS_M1_Crosswords.pptx": "f01d901367d05768ddd1acd8bef353114d4087fd2325edc0eaf1eddab11db9a9",
+    "presentation/SASPS_M1_Crosswords_slides.pdf": "d7399489a067d8eae4a2220c96e2c4af9facef61c86dd577970d58295ae38a07",
     "results/m1/raw.csv": "fe283c52a2b7ed05b8fdbfbe1d9db0b319ce7dbb9ee77272e511160e2760e925",
     "results/m1/summary.json": "04eb321d71e8d2c434f753d4a42251d425a636d066fbe616c7fd993086767ebe"
   },

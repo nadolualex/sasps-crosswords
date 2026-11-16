@@ -287,9 +287,6 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p.box(.6, 1.75, 4.6, 4.95)
     p.text(.85, 2.0, 4.1, .6, "Contribuitori", 23, GOLD, True)
     p.text(.85, 2.85, 4.1, .85, "\n".join(AUTHORS), 21, WHITE, True)
-    p.text(.85, 4.0, 4.1, 1.25,
-           "Roluri și contribuții:\nde completat.", 18)
-    p.text(.85, 5.7, 4.1, .8, "Pregătit cu ajutor AI;\nîl verificăm noi.", 18, MUTED)
     for y, title, body in (
         (1.75, "ACUM / M1", "Prototip, teste, prima măsurătoare, prezentare."),
         (3.05, "SPRINTURI VIITOARE", "Mai multe grile, politică nouă, memorie, rulări repetate."),
