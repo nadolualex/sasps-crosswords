@@ -1,4 +1,4 @@
-"""Generate the M1 PPTX and slide-only PDF from one explicit layout."""
+"""Generează PPTX-ul M1 și PDF-ul cu slide-uri din același layout."""
 
 import json
 from pathlib import Path
@@ -98,72 +98,71 @@ class Page:
 
 def build_pages(summary: dict, metrics: dict) -> list[Page]:
     pages = []
-    p = Page("Crosswords: Strategy vs condiționale", 25,
-             "Introduceți tema confirmată și delimitarea: acesta este M1, nu M3. "
-             "Același joc și aceiași algoritmi, două mecanisme de dispatch. "
-             "Nu anticipăm un câștig de performanță. Autorii sunt Nadolu Alex și Dalya Tobescu, "
-             "doi contribuitori confirmați; atribuțiile individuale rămân de completat.")
-    p.text(.65, 1.95, 8.5, 1.75, "Același joc.\nTrei politici.\nDouă mecanisme de selecție.", 32, WHITE, True)
-    p.text(.65, 4.25, 7.2, 1.25, "Investigăm structura și extensibilitatea, fără a schimba regulile sau a penaliza baseline-ul.", 23, MUTED)
+    p = Page("Același joc, două variante de cod", 25,
+             "Ne prezentăm: Nadolu Alex și Dalya Tobescu. Am făcut un joc de cuvinte încrucișate "
+             "în două versiuni, una cu if/elif și una cu Strategy. Jocul și algoritmii sunt la fel, "
+             "se schimbă doar felul în care e aleasă politica de indiciu. Suntem la M1, "
+             "deci arătăm un prototip și o primă măsurătoare, nu rezultate finale.")
+    p.text(.65, 1.95, 8.5, 1.75, "Același joc.\nTrei tipuri de indiciu.\nDouă moduri de a le alege.", 32, WHITE, True)
+    p.text(.65, 4.25, 7.2, 1.25, "Vrem să vedem ce aduce Strategy într-un proiect mic, fără să facem varianta if/elif mai proastă decât e.", 23, MUTED)
     p.box(.65, 6.05, 7.9, .55, PANEL)
-    p.text(.85, 6.15, 7.5, .35, "M1: prototip + pilot exploratoriu  |  9:30 + 2 min Q&A", 16, TEAL, True)
+    p.text(.85, 6.15, 7.5, .35, "M1: prototip și o primă măsurătoare  |  9:30 + 2 min întrebări", 16, TEAL, True)
     p.grid(9.2, 2.1, .61, ("CAL##", "O####", "DOR##", "U####", "LAC##"))
     p.text(9.2, 5.45, 3.5, 1.1, "Autori\n" + "\n".join(AUTHORS), 18, MUTED)
     pages.append(p)
 
-    p = Page("Problema, obiectivele și aplicația", 40,
-             "Jucătorul completează definiții și poate solicita indicii. "
-             "Intersecțiile au o singură stare. Obiectivul este separarea variației, "
-             "nu schimbarea jocului. Grila mică este deliberată pentru un demo verificabil.")
-    p.card(.6, 1.75, 6.65, 4.65, "Un joc mic, complet demonstrabil",
-           "Grilă 5×5, 11 celule, 4 definiții originale.\n"
-           "Răspunsuri, ștergere și verificarea câștigului.\n"
-           "Indicii: prima literă, literă aleatoare, cuvânt.\n"
-           "Litere dezvăluite protejate; erori explicite.", size=21)
-    p.text(7.75, 1.9, 4.8, .6, "Ce comparăm?", 24, TEAL, True)
+    p = Page("Jocul și întrebarea noastră", 40,
+             "Jucătorul completează definiții și poate cere indicii. Literele din intersecții "
+             "sunt păstrate o singură dată. Am ales o grilă mică ca să putem arăta demo-ul și "
+             "să verificăm tot. Vrem să schimbăm doar felul în care se alege indiciul, nimic altceva.")
+    p.card(.6, 1.75, 6.65, 4.65, "Un joc mic, dar complet",
+           "Grilă 5×5, 11 celule, 4 definiții.\n"
+           "Răspunsuri, ștergere, verificare.\n"
+           "Indicii: prima literă, o literă la întâmplare, tot cuvântul.\n"
+           "Literele date ca indiciu rămân blocate.", size=21)
+    p.text(7.75, 1.9, 4.8, .6, "Ce comparăm", 24, TEAL, True)
     p.text(7.75, 2.75, 4.8, 2.1,
-           "Selecția / delegarea politicii.\nNu comparăm două jocuri diferite.\nNu schimbăm algoritmii de indicii.", 23)
-    p.text(7.75, 5.25, 4.8, 1.3, "Criteriu esențial: comportament identic la aceleași comenzi și seed-uri.", 21, GOLD)
+           "Cum e aleasă politica de indiciu.\nNu două jocuri diferite.\nAlgoritmii rămân la fel.", 23)
+    p.text(7.75, 5.25, 4.8, 1.3, "Cerința de bază: același comportament pentru aceleași comenzi și același seed.", 21, GOLD)
     pages.append(p)
 
-    p = Page("Variante investigate: motivație și cost", 40,
-             "Strategy încapsulează algoritmi interschimbabili printr-o interfață. "
-             "Clientul alege cheia, dispatcherul selectează obiectul, motorul delegă. "
-             "Pentru trei cazuri, condiționalele sunt rezonabile. Clasele Strategy "
-             "apelează aceiași helperi, ca să izolăm dispatch-ul.")
-    p.card(.6, 1.75, 5.95, 4.75, "Condiționale — baseline",
+    p = Page("Cele două variante", 40,
+             "Strategy pune fiecare algoritm într-o clasă cu aceeași interfață, iar jocul doar o apelează. "
+             "Pentru trei politici, if/elif e o soluție perfect rezonabilă. "
+             "Clasele Strategy folosesc aceleași funcții ca varianta cu if/elif, "
+             "așa că diferența vine doar din modul de alegere.")
+    p.card(.6, 1.75, 5.95, 4.75, "if/elif (varianta de bază)",
            "if / elif în ConditionalDispatcher.\n"
-           "Aceiași helperi de politică.\n"
-           "Avantaj: compact, ușor de urmărit.\n"
-           "Extensie: adăugare de ramură.\n"
-           "Nu introducem costuri artificiale.", GOLD, 21)
-    p.card(6.8, 1.75, 5.95, 4.75, "Strategy — varianta cu pattern",
-           "HintStrategy + trei clase concrete.\n"
-           "Registru de obiecte fără stare.\n"
-           "Avantaj anticipat: responsabilități separate.\n"
-           "Extensie: clasă + înregistrare.\n"
-           "Cost: mai mult cod și indirectionare.", TEAL, 21)
+           "Aceleași funcții de politică.\n"
+           "Plus: puțin cod, ușor de citit.\n"
+           "Politică nouă: încă o ramură.", GOLD, 21)
+    p.card(6.8, 1.75, 5.95, 4.75, "Strategy",
+           "HintStrategy și trei clase concrete.\n"
+           "Un dicționar cu obiectele.\n"
+           "Plus posibil: fiecare politică separată.\n"
+           "Politică nouă: clasă nouă, înregistrată.\n"
+           "Minus: mai mult cod.", TEAL, 21)
     pages.append(p)
 
-    p = Page("Ipoteze și criterii experimentale", 45,
-             "E0 este invariantul obligatoriu, verificat pe corpus, nu demonstrat formal. "
-             "H1 rămâne de testat printr-o extensie controlată în M2. H2 nu afirmă "
-             "viteză mai mare; raportăm timpi descriptivi. Memoria și construcția sunt viitoare.")
+    p = Page("Ce verificăm", 45,
+             "E0 trebuie să fie adevărat mereu: variantele dau aceleași rezultate. Îl verificăm cu teste, "
+             "nu îl demonstrăm formal. H1 o testăm la M2, adăugând o politică nouă în ambele variante. "
+             "La H2 nu pretindem că Strategy e mai rapid, doar raportăm timpii. H3 e tot pentru M2.")
     for y, label, body, color in (
-        (1.75, "E0 / ECHIVALENȚĂ", "Evenimente, stare, erori și RNG identice. Testat pe corpusul M1.", TEAL),
-        (2.95, "H1 / EXTENSIE", "Fișiere / linii modificate și regresii la o politică nouă. Planificat M2.", BLUE),
-        (4.15, "H2 / TIMP", "Mediană, Q1–Q3, raport median în perechi. Pilot fără inferență statistică.", GOLD),
-        (5.35, "H3 / COST INIȚIAL", "Construcție și memorie, separat de apelul de indiciu. Planificat M2.", BLUE),
+        (1.75, "E0 / ECHIVALENȚĂ", "Aceleași evenimente, stare, erori și numere aleatoare. Testat în M1.", TEAL),
+        (2.95, "H1 / EXTENSIE", "Câte fișiere și linii se schimbă pentru o politică nouă. Planificat pentru M2.", BLUE),
+        (4.15, "H2 / TIMP", "Mediană, Q1–Q3, raport pe perechi. Doar o primă măsurătoare.", GOLD),
+        (5.35, "H3 / CONSTRUCȚIE", "Timp și memorie la crearea jocului. Planificat pentru M2.", BLUE),
     ):
         p.box(.6, y, 12.1, 1.03)
         p.text(.85, y + .18, 3.15, .65, label, 18, color, True)
         p.text(4.05, y + .14, 8.3, .75, body, 20)
     pages.append(p)
 
-    p = Page("Arhitectură: variație locală, motor comun", 60,
-             "Urmăriți săgețile. Game validează, construiește contextul și aplică actualizarea. "
-             "Doar alegerea helperului diferă: ramuri directe versus obiect HintStrategy. "
-             "RNG-ul aparține fiecărui Game. Grila, starea și interfața CLI nu sunt duplicate.")
+    p = Page("Arhitectura: o singură piesă diferă", 60,
+             "Urmăriți săgețile. Game validează cererea, pregătește contextul și scrie literele. "
+             "Singura diferență e cum se alege funcția: ramuri if/elif sau un obiect HintStrategy. "
+             "Fiecare Game are propriul generator aleator. Grila, starea și CLI-ul sunt scrise o singură dată.")
     p.box(.65, 2.8, 1.45, 1.25)
     p.text(.78, 3.05, 1.18, .8, "CLI\ncomun", 20, WHITE, True)
     p.arrow(2.13, 3.3, .45)
@@ -180,15 +179,14 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
     p.text(9.83, 2.35, 2.62, 2.45, "Helperi comuni\nfirst_cells\nrandom_cells\nword_cells\n→ celule selectate", 19, WHITE, True)
     p.box(.65, 5.7, 12.05, .9)
     p.text(.9, 5.85, 11.55, .65,
-           "Game: aceleași celule → protejare, contor, HintResult. Aceleași date / reguli / UI.", 20, MUTED)
+           "Game scrie aceleași celule, le blochează și numără indiciul în ambele variante.", 20, MUTED)
     pages.append(p)
 
-    p = Page("Demo: aceeași grilă, aceleași rezultate", 100,
-             "Aveți terminalele deschise. Rulați python3 -m crosswords --variant conditional "
-             "--seed 42 --demo, apoi aceeași comandă cu strategy. Arătați C prima literă, "
-             "R ales aleator pe 2A și completarea CODUL. Răspunsurile finale rezolvă grila. "
-             "Antetul diferă, evenimentele nu. Dacă demo-ul live nu este disponibil, "
-             "folosiți fallback-ul static vizibil și spuneți explicit că este static.")
+    p = Page("Demo: aceeași grilă, același rezultat", 100,
+             "Rulăm python3 -m crosswords --variant conditional --seed 42 --demo, apoi la fel cu strategy. "
+             "Se vede C la primul indiciu, R ales la întâmplare pe 2A și apoi CODUL completat. "
+             "Răspunsurile rămase rezolvă grila. Doar prima linie diferă între variante. "
+             "Dacă terminalul nu merge, arătăm grila de pe slide și spunem că e o rulare anterioară.")
     p.box(.6, 1.75, 7.9, 4.95)
     p.text(.85, 1.98, 7.4, .55, "Demo fără input, seed 42", 23, TEAL, True)
     p.text(.85, 2.75, 7.4, 1.0,
@@ -197,35 +195,34 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
            "hint 1A first → C\nhint 2A random → R\nhint 1D word → completează CODUL", 21)
     p.text(.85, 5.8, 7.4, .7, "Repetăm cu --variant strategy.\nFinal: CAL / DOR / LAC, 3 indicii.", 18, GOLD)
     p.grid(9.05, 2.05, .62, ("CAL##", "O####", "DOR##", "U####", "LAC##"))
-    p.text(9.05, 5.5, 3.75, 1.05, "Fallback static al demo-ului.\nGrila finală: 11 / 11 celule corecte.", 18, MUTED)
+    p.text(9.05, 5.5, 3.75, 1.05, "Grila de rezervă, dacă nu merge terminalul.\nFinal: 11 din 11 celule corecte.", 18, MUTED)
     pages.append(p)
 
-    p = Page("Protocol comparabil și reproductibil", 60,
-             "Corectitudinea este verificată înainte de măsurare pentru toate cele 256 jocuri "
-             "și prin checksum după fiecare lot. Încălzirile nu intră în date. În fiecare pereche "
-             "ordinea este aleasă reproductibil. Măsurăm întregul apel, nu numai dispatch-ul. "
-             "Crearea obiectelor este exclusă; un posibil cost al Strategy rămâne de măsurat separat.")
+    p = Page("Cum măsurăm", 60,
+             "Întâi verificăm că variantele dau același rezultat pe toate cele 256 de jocuri, "
+             "apoi comparăm un hash al stării după fiecare rundă. Rundele de încălzire nu intră în rezultate. "
+             "În fiecare pereche, ordinea variantelor e amestecată cu un seed fix. Măsurăm tot apelul de indiciu, "
+             "nu doar alegerea politicii. Crearea obiectelor nu e inclusă; o vom măsura separat la M2.")
     for x, title, body in (
-        (.6, "1. VERIFICARE", "Evenimente + stare + RNG\n256 jocuri identice"),
-        (4.75, "2. ÎNCĂLZIRE", "3 loturi / variantă\nExcluse din rezultate"),
-        (8.9, "3. MĂSURARE", "30 perechi A/B\nOrdine cu seed fix"),
+        (.6, "1. VERIFICARE", "Evenimente, stare, RNG\n256 de jocuri la fel"),
+        (4.75, "2. ÎNCĂLZIRE", "3 runde pe variantă\nNu intră în rezultate"),
+        (8.9, "3. MĂSURARE", "30 de perechi\nOrdine amestecată, seed fix"),
     ):
         p.card(x, 1.85, 3.8, 2.3, title, body, size=19)
     p.arrow(4.42, 2.75, .25)
     p.arrow(8.57, 2.75, .25)
-    p.text(.8, 4.55, 11.9, .6, "256 jocuri × 8 apeluri = 2.048 apeluri / lot; 61.440 / variantă.", 22, TEAL, True)
+    p.text(.8, 4.55, 11.9, .6, "256 de jocuri × 8 apeluri = 2.048 de apeluri pe rundă; 61.440 pe variantă.", 22, TEAL, True)
     p.text(.8, 5.45, 11.9, 1.1,
-           "perf_counter_ns • seed 2026 • GC oprit doar în cronometrare\n"
-           "În afara timerului: construcție, I/O, verificări, checksum.", 21, MUTED)
+           "perf_counter_ns • seed 2026 • garbage collector oprit doar în cronometrare\n"
+           "Nu se măsoară: crearea jocului, afișarea și verificările.", 21, MUTED)
     pages.append(p)
 
     c = summary["metrics"]["conditional"]
     s = summary["metrics"]["strategy"]
-    p = Page("Pilot M1: rezultate reale, exploratorii", 45,
-             "Citiți medianele și dispersia descriptivă. Raportul este mediana rapoartelor "
-             "în perechi, nu raportul medianelor. Peste 1 înseamnă mai lent pentru Strategy "
-             "în acest workload. Nu raportăm semnificație. O diferență mică sau negativă "
-             "nu invalidează proiectul. Sursa este CSV-ul real, nu cifre inventate.")
+    p = Page("Prima măsurătoare (preliminară)", 45,
+             "Acestea sunt medianele și intervalul Q1–Q3. Raportul e mediana rapoartelor pe fiecare pereche, "
+             "nu raportul dintre cele două mediane. Peste 1 înseamnă că Strategy a ieșit mai lent în acest test. "
+             "Nu tragem concluzii statistice dintr-un singur calculator. Cifrele vin din results/m1/raw.csv.")
     maximum = max(c["median_ns_per_call"], s["median_ns_per_call"]) * 1.25
     for y, label, values, color in (
         (2.0, "Condiționale", c, GOLD), (3.45, "Strategy", s, TEAL),
@@ -236,90 +233,86 @@ def build_pages(summary: dict, metrics: dict) -> list[Page]:
         p.text(4.25, y + .67, 7.9, .5,
                f"Q1–Q3: {values['q1_ns_per_call'] / 1000:.3f}–{values['q3_ns_per_call'] / 1000:.3f} µs/apel", 19, MUTED)
     p.text(.75, 5.0, 11.9, .55,
-           f"Raport median pereche Strategy / condiționale: {summary['median_paired_strategy_over_conditional']:.3f}", 23, WHITE, True)
+           f"Raport median pe perechi, Strategy / if-elif: {summary['median_paired_strategy_over_conditional']:.3f}", 23, WHITE, True)
     p.text(.75, 5.95, 11.9, .85,
-           "Un host / proces / workload. Fără inferență statistică.\n"
+           "Un calculator, un proces, un scenariu. Fără concluzii statistice.\n"
            "Python 3.13.2 • macOS arm64 • results/m1/raw.csv + summary.json", 18, MUTED)
     pages.append(p)
 
-    p = Page("Structura codului: un trade-off, nu un verdict", 40,
-             "Metricile sunt descriptive: linii ne-goale/ne-comentariu și clase incluzând Protocol. "
-             "If se numără doar în select al dispatcherului, nu în tot programul. "
-             "Strategy are mai multe clase și cod. Extensibilitatea nu este dovedită de numărul "
-             "de ramuri: experimentul de extensie este planificat M2.")
+    p = Page("Cât cod costă fiecare", 40,
+             "Numerele descriu doar fișierele dispatcherelor: linii de cod, clase (cu Protocol) și noduri if din select. "
+             "Strategy are mai mult cod și mai multe clase. Numărul de ramuri nu arată cât de ușor "
+             "se extinde codul; asta testăm la M2.")
     p.box(.65, 1.8, 12.05, 3.65)
-    headers = [("Metrică descriptivă", .9, 6.2), ("if/elif", 7.4, 2), ("Strategy", 10.1, 2.2)]
+    headers = [("Ce numărăm", .9, 6.2), ("if/elif", 7.4, 2), ("Strategy", 10.1, 2.2)]
     for text, x, width in headers:
         p.text(x, 2.02, width, .5, text, 22, TEAL, True)
     rows = (
-        ("Linii ne-goale / ne-comentariu", "nonblank_noncomment_lines"),
-        ("Clase, incluzând Protocol", "class_definitions_including_protocol"),
-        ("Noduri If în dispatcher.select", "dispatcher_select_if_nodes"),
+        ("Linii de cod (fără goale și comentarii)", "nonblank_noncomment_lines"),
+        ("Clase (cu Protocol)", "class_definitions_including_protocol"),
+        ("if-uri în dispatcher.select", "dispatcher_select_if_nodes"),
     )
     for y, (label, key) in zip((2.9, 3.7, 4.5), rows):
         p.text(.9, y, 6.2, .55, label, 21)
         p.text(7.4, y, 2, .55, str(metrics["conditional"][key]), 24, GOLD, True)
         p.text(10.1, y, 2.2, .55, str(metrics["strategy"][key]), 24, TEAL, True)
     p.text(.8, 5.85, 11.8, .95,
-           "Compactitate acum vs separarea responsabilităților la extensie.\n"
-           "Nu confundăm mutarea ramurilor cu mentenabilitatea globală.", 22, MUTED)
+           "Cod mai scurt acum, față de politici separate când adăugăm ceva.\n"
+           "Mutarea ramurilor în clase nu înseamnă automat cod mai ușor de întreținut.", 22, MUTED)
     pages.append(p)
 
-    p = Page("Stadiu implementare și limite M1", 45,
-             "Sunt realizate ambele variante, testele, demo-ul, scripturile și pilotul. "
-             "Testele includ 100 seed-uri, comenzi mixte și erori. Codul și datele sunt locale "
-             "cu tag M1; repository-ul personal privat a fost creat și release-ul se verifică la final. Nu afirmăm articol final sau "
-             "contribuții umane neconfirmate. Studenții trebuie să valideze asistența AI.")
-    p.card(.6, 1.75, 5.95, 4.85, "Realizat și verificabil",
-           "Motor comun + două variante.\n"
-           "18 teste; echivalență inclusiv RNG.\n"
-           "Demo complet, fără input.\n"
-           "CSV brut + metadate + reproducere.\n"
-           "Git local și tag M1 la release.", TEAL, 21)
-    p.card(6.8, 1.75, 5.95, 4.85, "Nu este încă realizat",
-           "Extensie controlată / memorie.\n"
-           "Replicări multi-process robuste.\n"
-           "Concluzii statistice / articol M3.\n"
-           "Atribuții individuale confirmate.\n"
-           "Articolul final rămâne pentru M3.", GOLD, 21)
+    p = Page("Unde suntem acum", 45,
+             "Avem ambele variante, testele, demo-ul, scripturile și prima măsurătoare. "
+             "Testele folosesc 100 de seed-uri, comenzi amestecate și cazuri de eroare. Codul e într-un "
+             "repository privat, cu tag-ul M1. Nu avem încă articolul și nici împărțirea muncii. "
+             "Am folosit asistență AI, iar noi trebuie să înțelegem și să verificăm tot.")
+    p.card(.6, 1.75, 5.95, 4.85, "Gata",
+           "Motor comun și două variante.\n"
+           "18 teste, inclusiv echivalență și RNG.\n"
+           "Demo fără input.\n"
+           "Date brute și comenzi de reproducere.\n"
+           "Repository privat, tag M1.", TEAL, 21)
+    p.card(6.8, 1.75, 5.95, 4.85, "Urmează",
+           "Politică nouă în ambele variante.\n"
+           "Măsurători de memorie.\n"
+           "Rulări în procese separate.\n"
+           "Împărțirea muncii.\n"
+           "Articolul, la M3.", GOLD, 21)
     pages.append(p)
 
-    p = Page("Contribuitori, progres real și plan până la M2", 45,
-             "Contribuitorii confirmați sunt Nadolu Alex și Dalya Tobescu. Sunt exact două persoane, "
-             "fără nume de echipă. Repartizarea rolurilor și contribuțiile individuale rămân de completat; "
-             "nu atribuim retroactiv activități sau ore. Pregătirea curentă este asistată AI. "
-             "Sprinturile viitoare depind de calendarul cursului; M2 s12, M3 s14.")
+    p = Page("Contribuitori și plan până la M2", 45,
+             "Suntem doi, Nadolu Alex și Dalya Tobescu, fără nume de echipă. Cine ce a făcut încă nu am trecut; "
+             "nu vrem să scriem ore sau sarcini pe care nu le putem susține. Pentru M1 am folosit asistență AI. "
+             "Mai jos e planul: M2 în săptămâna 12, M3 în săptămâna 14.")
     p.box(.6, 1.75, 4.6, 4.95)
     p.text(.85, 2.0, 4.1, .6, "Contribuitori", 23, GOLD, True)
     p.text(.85, 2.85, 4.1, .85, "\n".join(AUTHORS), 21, WHITE, True)
     p.text(.85, 4.0, 4.1, 1.25,
-           "2 contribuitori confirmați.\n"
-           "Roluri și atribuții individuale:\nde completat după confirmare.", 18)
-    p.text(.85, 5.7, 4.1, .8, "Pregătire asistată AI;\nvalidare academică obligatorie.", 18, MUTED)
+           "Roluri și contribuții:\nde completat.", 18)
+    p.text(.85, 5.7, 4.1, .8, "Pregătit cu ajutor AI;\nîl verificăm noi.", 18, MUTED)
     for y, title, body in (
-        (1.75, "ACUM / M1", "Prototip, teste, pilot, PPTX. Nu inventăm sprinturi trecute."),
-        (3.05, "SPRINTURI VIITOARE", "Corpus extins → extensie controlată → replicări / memorie."),
-        (4.35, "M2 / SĂPTĂMÂNA 12", "Raport comparativ și date reproductibile; tag M2 atunci."),
-        (5.65, "M3 / SĂPTĂMÂNA 14", "PPTX final + articol științific PDF; tag M3 atunci."),
+        (1.75, "ACUM / M1", "Prototip, teste, prima măsurătoare, prezentare."),
+        (3.05, "SPRINTURI VIITOARE", "Mai multe grile, politică nouă, memorie, rulări repetate."),
+        (4.35, "M2 / SĂPTĂMÂNA 12", "Raport cu date reproductibile; tag M2."),
+        (5.65, "M3 / SĂPTĂMÂNA 14", "Prezentare finală și articol PDF; tag M3."),
     ):
         p.box(5.5, y, 7.2, 1.05)
         p.text(5.72, y + .1, 6.75, .35, title, 15, TEAL, True)
         p.text(5.72, y + .46, 6.75, .55, body, 16)
     pages.append(p)
 
-    p = Page("Ce rămâne de demonstrat?", 25,
-             "Încheiați cu întrebarea de extensibilitate, nu cu un verdict de viteză. "
-             "Referințele sunt publice; suportul de curs nu este reprodus. "
-             "Menționați asistența AI și responsabilitatea studentului de a înțelege și valida. "
-             "Opriți prezentarea la 9:30 și rezervați două minute pentru întrebări.")
+    p = Page("Întrebarea rămasă", 25,
+             "Încheiem cu întrebarea despre extensii, nu cu o concluzie despre viteză. "
+             "Sursele sunt publice, iar suportul de curs nu e inclus. Repetăm că am folosit AI și că "
+             "trebuie să înțelegem și să verificăm tot. Ne oprim la 9:30 și rămân două minute pentru întrebări.")
     p.text(.8, 1.9, 11.7, 1.25,
-           "Când merită separarea prin Strategy\ncostul suplimentar de structură?", 30, TEAL, True)
+           "Când merită să plătim cu mai multă\nstructură pentru Strategy?", 30, TEAL, True)
     p.text(.8, 3.5, 11.7, .85,
-           "M1 dovedește un prototip comparabil pe corpusul testat.\nM2 va testa extensia; M3 va sintetiza dovezile și limitele.", 22)
+           "La M1 avem un prototip cu două variante comparabile.\nLa M2 testăm o extensie; la M3 tragem concluziile, cu limitele lor.", 22)
     p.text(.8, 4.75, 11.7, 1.35,
-           "Referințe publice: Refactoring.Guru — Strategy; pyperf — Run benchmarks.\n"
-           "URL-uri și metodologie completă: docs/METHODOLOGY.md.\n"
-           "AI declarat; atribuțiile individuale rămân de completat.", 18, MUTED)
+           "Surse: Refactoring.Guru (Strategy); pyperf (Run benchmarks).\n"
+           "Linkuri și metodologie: docs/METHODOLOGY.md.\n"
+           "Am folosit asistență AI; împărțirea muncii e de completat.", 18, MUTED)
     p.text(.8, 6.3, 11.7, .4, "9:30 prezentare  /  2:00 întrebări", 19, GOLD, True)
     pages.append(p)
     for index, page in enumerate(pages, 1):

@@ -1,4 +1,4 @@
-"""Descriptive AST counts, not an overall maintainability score."""
+"""Numără linii, clase și if-uri; nu e o măsură a mentenabilității."""
 
 import ast
 import json

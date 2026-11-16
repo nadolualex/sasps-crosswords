@@ -1,103 +1,83 @@
-# Metodologie comparativă — M1
+# Metodologie
 
-## Întrebarea
+## Ce comparăm
 
-Cum schimbă Strategy structura și extensibilitatea selecției de indicii într-un
-joc Crosswords, față de un dispatcher `if/elif`, păstrând comportamentul identic?
-Nu presupunem că pattern-ul este mai rapid sau obligatoriu pentru trei politici.
+Vrem să vedem ce se schimbă când alegerea politicii de indiciu se face prin
+Strategy în loc de `if/elif`. Nu pornim de la ideea că Strategy e mai rapid sau
+mai bun; pentru doar trei politici, varianta cu `if/elif` poate fi suficientă.
 
-## Variabile și controale
+Singura diferență dintre variante este dispatcherul:
 
-Variabila independentă este mecanismul de dispatch/incapsulare:
-`ConditionalDispatcher.select` versus `StrategyDispatcher.select` +
-obiectele `HintStrategy`. Clasele concrete delegă către aceiași helperi puri
-din `policies.py`; ele nu au algoritmi diferiți. În ambele cazuri, `Game`
-construiește același `HintContext` și aplică aceleași actualizări ale stării.
+- `ConditionalDispatcher.select` alege cu `if/elif` și apelează direct funcția politicii;
+- `StrategyDispatcher.select` caută într-un dicționar un obiect `HintStrategy`, care
+  apelează aceeași funcție.
 
-Controale: aceeași grilă, definiții, ordinea celulelor, normalizare, validare,
-reguli de protejare a literelor, contor, RNG local `random.Random`, seed,
-comenzi, UI și timer. În benchmark, fiecare variantă pornește din jocuri noi,
-cu aceleași seed-uri `2026 + index`; construcția obiectelor nu este cronometrată.
-Nu există input/output sau calcul de checksum în regiunea cronometrată.
+Funcțiile politicilor stau în `policies.py` și sunt folosite de ambele variante,
+deci algoritmii sunt identici. La fel sunt grila, definițiile, validarea
+răspunsurilor, blocarea literelor, contorul de indicii și interfața.
 
-Politici:
+## Politici
 
-| Politică | Semantica comună |
+| Politică | Ce dezvăluie |
 |---|---|
-| `first` | Prima celulă nerezolvată din cuvânt, în ordinea definiției |
-| `random` | O celulă nerezolvată aleasă uniform cu RNG-ul jocului |
-| `word` | Toate celulele nerezolvate din cuvânt |
+| `first` | prima celulă nerezolvată din cuvânt |
+| `random` | o celulă nerezolvată aleasă cu generatorul jocului |
+| `word` | toate celulele nerezolvate din cuvânt |
 
-„Nerezolvată” înseamnă goală sau incorectă. Un cuvânt corect este no-op,
-fără consum de RNG. Politică/definiție necunoscută și răspuns invalid produc
-`ValueError`; UI afișează eroarea. Un răspuns ce contrazice o literă dezvăluită
-este respins fără schimbări parțiale. Literele corecte introduse manual nu sunt
-protejate automat și pot fi șterse. Politicile sunt alese de client prin CLI,
-nu există selecție adaptivă ascunsă.
+O celulă e „nerezolvată” dacă e goală sau greșită. Un cuvânt deja corect nu
+schimbă nimic și nu consumă numere aleatoare. O politică sau o definiție
+necunoscută, ca și un răspuns invalid, dau `ValueError` și lasă jocul neschimbat.
 
-## Ipoteze și metrici
+## Ce verificăm
 
-| ID | Ipoteză / criteriu | Măsurare | Stadiu |
+| | Întrebare | Cum măsurăm | Stadiu |
 |---|---|---|---|
-| E0 | Evenimente, stări și erori identice pentru aceleași comenzi/seed-uri | Egalitate exactă, inclusiv `Random.getstate()` | Testat pe corpusul M1; nu probă formală |
-| H1 | O politică nouă poate separa responsabilitățile în Strategy, cu cost de boilerplate | Fișiere/linii modificate, puncte de modificare, regresii; durată numai dacă observată real | Experiment de extensie planificat M2 |
-| H2 | Strategy nu are un avantaj de timp presupus | Mediană, Q1/Q3 per apel; raport median per pereche | Pilot M1 exploratoriu |
-| H3 | Clasele suplimentare pot avea cost inițial | Timp de construcție și memorie cu aceeași durată de viață | Planificat M2 |
+| E0 | Dau variantele aceleași rezultate, erori și numere aleatoare? | comparăm exact evenimentele și starea, inclusiv `Random.getstate()` | testat pe cazurile din `tests/` |
+| H1 | Cât cod trebuie schimbat pentru o politică nouă? | fișiere și linii modificate, teste care pică | planificat pentru M2 |
+| H2 | Cât durează un apel de indiciu? | mediană și Q1–Q3 pe apel, raport median pe perechi | prima măsurătoare, M1 |
+| H3 | Cât costă crearea jocului? | timp și memorie la construcție | planificat pentru M2 |
 
-`code_metrics.json` numără linii ne-goale/ne-comentariu, clase (incluzând
-Protocol) și noduri AST `If` doar din metoda dispatcherului. Aceste numere
-**nu** sunt o măsură globală a mentenabilității sau o comparație a complexității
-întregului proiect. Condiționalele sunt un baseline rezonabil pentru trei cazuri;
-mutarea lor într-un registru nu elimină toate condițiile din aplicație.
+`code_metrics.json` numără linii, clase și noduri `If` doar în fișierele
+dispatcherelor. Sunt numere descriptive; nu spun care variantă se întreține mai ușor.
 
-## Pilotul măsurat
+## Prima măsurătoare
 
-Comanda exactă este în README și metadatele în `results/m1/summary.json`.
-30 perechi × 256 jocuri × 8 apeluri = **61.440 apeluri cronometrate per variantă**.
-3 încălziri complete per variantă, excluse din rezultate.
-Ordinea A/B în fiecare pereche este amestecată cu seed fix; nu este paralelă.
-GC este colectat înainte de fiecare lot și dezactivat numai în regiunea
-cronometrată, apoi restaurat. Folosim `time.perf_counter_ns`.
-Cele 8 comenzi sunt explicit în `WORKLOAD`; includ politici mixte și no-op-uri.
+Parametrii sunt în `results/m1/summary.json`: 30 de perechi, 256 de jocuri, 8 apeluri
+de indiciu pe joc (2.048 de apeluri pe pereche, 61.440 pe variantă), 3 runde de
+încălzire pe variantă care nu intră în rezultate, seed 2026.
 
-Verificarea necronometrată compară fiecare eveniment și fiecare snapshot pentru
-toate cele 256 jocuri. Fiecare lot măsurat este apoi verificat prin SHA-256
-al snapshot-urilor finale, incluzând RNG. Rândurile CSV includ ordinea,
-durata, numărul de apeluri, ns/apel și checksum. Raportul Strategy/condiționale
-este mediana rapoartelor în perechi, **nu raportul medianelor marginale**.
+Fiecare pereche începe cu jocuri noi, cu aceleași seed-uri în ambele variante. Ordinea
+(care variantă rulează prima) e amestecată cu un seed fix. Cronometrăm doar
+apelurile de indiciu, cu `time.perf_counter_ns` și cu garbage collector-ul oprit pe
+durata măsurătorii. Crearea jocurilor, afișarea și verificările nu sunt incluse.
 
-## Amenințări la validitate
+Înainte de măsurare, `benchmark.py` compară evenimentele și starea celor 256 de
+jocuri în ambele variante, iar după fiecare rundă verifică un hash al stării finale.
+Raportul din sumar e mediana rapoartelor Strategy/condiționale calculate pe fiecare
+pereche, nu raportul dintre cele două mediane.
 
-Un singur puzzle mic, un singur workload, un singur interpreter/proces/host.
-CPU, temperatură și procese concurente nu sunt controlate complet. Cele 30
-perechi sunt repetări tehnice, nu 30 utilizatori independenți. Apelul măsurat
-include mult motor comun, deci nu cuantifică separat costul dispatch-ului.
-Construcția registrului/obiectelor este exclusă; acest cost trebuie evaluat separat.
-Nu raportăm p-value, semnificație, interval de încredere sau concluzie cauzală
-generală. Cifrele negative sau aproape egale sunt rezultate acceptabile.
-Reproducerea în aceeași versiune Python păstrează stările, nu timpul exact.
+## Limite
 
-## M2 și M3, încă neexecutate
+- un singur puzzle mic, un singur scenariu, un singur calculator și un singur proces;
+- procesele din fundal și frecvența procesorului nu sunt controlate;
+- cele 30 de perechi sunt repetări ale aceluiași scenariu, nu eșantioane independente;
+- timpul măsurat include tot apelul de indiciu, nu doar dispatch-ul;
+- nu raportăm p-values, intervale de încredere sau concluzii generale;
+- un rezultat în care variantele ies aproape la fel e un rezultat valid.
 
-M2 (săptămâna 12): mai multe grile și distribuții de politici; loturi și seed-uri
-publicate; replicări în procese separate cu protocol predefinit; măsurarea
-construcției/memoriei; o extensie controlată („ultima literă nerezolvată”) în
-ambele variante folosind același helper și aceleași teste. Se păstrează diffs
-reale și regresiile; nu se inventează timpi de dezvoltare sau participanți.
-Stabilim înainte de rulare unitatea de analiză și intervalele de încredere
-potrivite replicărilor independente. Nu selectăm doar rulările favorabile.
+## Ce urmează
 
-M3 (săptămâna 14): completarea experimentelor, discuția limitelor și a
-rezultatelor negative, PPTX final și **articol științific PDF separat**.
-Tag-urile M2/M3 se creează numai atunci. M1 nu pretinde livrarea articolului.
+**M2 (săptămâna 12):** mai multe grile și combinații de politici, rulări în procese
+separate (pyperf e un model bun pentru asta), măsurători de construcție și memorie
+și o extensie făcută în ambele variante, de pildă o politică „ultima literă
+nerezolvată”. Stabilim analiza înainte de rulări și publicăm toate rezultatele.
 
-## Referințe
+**M3 (săptămâna 14):** analiza finală cu limitele ei, prezentarea finală și articolul
+științific în PDF. Tag-urile M2 și M3 le facem la livrare.
 
-1. Refactoring.Guru, „Strategy”: https://refactoring.guru/design-patterns/strategy
-   — definiție, context și interfață; consultat 15.11.2026.
+## Surse
+
+1. Refactoring.Guru, „Strategy”: https://refactoring.guru/design-patterns/strategy (consultat 15.11.2026).
 2. pyperf, „Run benchmarks”: https://pyperf.readthedocs.io/en/latest/run_benchmark.html
-   — încălzire, replicări/procese și zgomot; consultat 15.11.2026.
-   Pilotul folosește stdlib, **nu pyperf**.
-
-Suportul de curs a servit drept context al disciplinei; nu este copiat și nu
-este tratat drept enunț al temei. Tema confirmată este Crosswords.
+   (consultat 15.11.2026). Am folosit doar ideile despre încălzire și zgomot;
+   măsurătoarea M1 e scrisă cu biblioteca standard, nu cu pyperf.

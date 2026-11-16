@@ -1,4 +1,4 @@
-"""Run release checks and persist their real outputs; raises on any failure."""
+"""Rulează verificările de release și salvează rezultatele lor reale."""
 
 import csv
 from datetime import datetime, timezone

@@ -1,1 +1,1 @@
-"""Crosswords M1: common engine, two interchangeable hint dispatchers."""
+"""Crosswords M1: motor comun și două dispatchere pentru indicii."""

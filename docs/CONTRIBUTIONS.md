@@ -1,31 +1,28 @@
-# Registru de contribuții și proveniență
+# Contribuții
 
-**Autori / contribuitori confirmați: Nadolu Alex și Dalya Tobescu.**
-Sunt exact doi contribuitori; nu există nume de echipă. Repartizarea rolurilor,
-contribuțiile individuale, orele lucrate și sprinturile anterioare nu sunt confirmate.
+Autori: Nadolu Alex și Dalya Tobescu. Suntem doi, fără un nume de echipă.
 
-| Contribuitor | Rol / atribuții | Contribuții individuale |
+Nu am trecut încă cine a făcut ce și nici cât timp a durat, pentru că vrem să
+scriem doar ce s-a întâmplat cu adevărat. Tabelul se completează cu activități
+reale, cu dată și cu fișierul sau commit-ul respectiv.
+
+| Autor | Rol | Contribuții |
 |---|---|---|
-| Nadolu Alex | De confirmat | De completat pe baza activităților reale |
-| Dalya Tobescu | De confirmat | De completat pe baza activităților reale |
+| Nadolu Alex | de completat | de completat |
+| Dalya Tobescu | de completat | de completat |
 
-Motorul și testele, experimentele și analiza, prezentarea și documentația sunt
-zone de responsabilitate de repartizat între cei doi autori, nu persoane suplimentare.
-Nu atribuim retrospectiv activități sau ore unuia dintre autori.
+Cele trei zone de lucru sunt motorul și testele, experimentele și analiza,
+respectiv prezentarea și documentația. Nu am hotărât încă cine ia ce.
 
-## Pregătire asistată AI, efectuată acum
+## Asistență AI
 
-GitHub Copilot a generat prototipul, testele, scripturile, documentația și
-prezentarea și a executat validările/pilotul în mediul local. Aceste operații
-sunt înregistrate ca pregătire asistată, nu ca ore sau contribuții manuale ale
-studenților. Declarația de asistență AI este păstrată în livrabile.
-Nu sunt fabricate commit-uri anterioare sau rezultate experimentale.
+Prototipul, testele, scripturile, documentația și prezentarea M1 au fost generate cu
+GitHub Copilot, care a rulat și verificările și prima măsurătoare. Nu le
+prezentăm ca muncă făcută manual de noi.
 
-Autorii trebuie să revizuiască codul și datele, să înțeleagă delegarea prin
-Strategy și semantica RNG, să ruleze independent demo-ul/testele și să respecte
-politica instituției privind AI. Dacă AI nu este permis pentru anumite părți,
-acestea trebuie refăcute conform regulilor profesorului, cu proveniența păstrată.
+Înainte de predare trebuie să citim codul și datele, să ne asigurăm că înțelegem
+cum funcționează Strategy în proiect și cum sunt folosite numerele aleatoare, și să
+rulăm independent testele și demo-ul. Dacă regulile cursului nu permit AI pentru
+anumite părți, le refacem noi, cu proveniența notată.
 
-Înregistrările viitoare vor avea data reală, autorul confirmat, activitatea,
-fișierul/commit-ul și dovada. Duratele se trec doar dacă au fost observate,
-nu estimate retroactiv. Suportul de curs nu este inclus în repository.
+Suportul de curs nu este inclus în repository.

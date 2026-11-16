@@ -7,75 +7,75 @@
   "slides": [
     {
       "number": 1,
-      "title": "Crosswords: Strategy vs condiționale",
+      "title": "Același joc, două variante de cod",
       "seconds": 25,
-      "speaker_notes": "Introduceți tema confirmată și delimitarea: acesta este M1, nu M3. Același joc și aceiași algoritmi, două mecanisme de dispatch. Nu anticipăm un câștig de performanță. Autorii sunt Nadolu Alex și Dalya Tobescu, doi contribuitori confirmați; atribuțiile individuale rămân de completat."
+      "speaker_notes": "Ne prezentăm: Nadolu Alex și Dalya Tobescu. Am făcut un joc de cuvinte încrucișate în două versiuni, una cu if/elif și una cu Strategy. Jocul și algoritmii sunt la fel, se schimbă doar felul în care e aleasă politica de indiciu. Suntem la M1, deci arătăm un prototip și o primă măsurătoare, nu rezultate finale."
     },
     {
       "number": 2,
-      "title": "Problema, obiectivele și aplicația",
+      "title": "Jocul și întrebarea noastră",
       "seconds": 40,
-      "speaker_notes": "Jucătorul completează definiții și poate solicita indicii. Intersecțiile au o singură stare. Obiectivul este separarea variației, nu schimbarea jocului. Grila mică este deliberată pentru un demo verificabil."
+      "speaker_notes": "Jucătorul completează definiții și poate cere indicii. Literele din intersecții sunt păstrate o singură dată. Am ales o grilă mică ca să putem arăta demo-ul și să verificăm tot. Vrem să schimbăm doar felul în care se alege indiciul, nimic altceva."
     },
     {
       "number": 3,
-      "title": "Variante investigate: motivație și cost",
+      "title": "Cele două variante",
       "seconds": 40,
-      "speaker_notes": "Strategy încapsulează algoritmi interschimbabili printr-o interfață. Clientul alege cheia, dispatcherul selectează obiectul, motorul delegă. Pentru trei cazuri, condiționalele sunt rezonabile. Clasele Strategy apelează aceiași helperi, ca să izolăm dispatch-ul."
+      "speaker_notes": "Strategy pune fiecare algoritm într-o clasă cu aceeași interfață, iar jocul doar o apelează. Pentru trei politici, if/elif e o soluție perfect rezonabilă. Clasele Strategy folosesc aceleași funcții ca varianta cu if/elif, așa că diferența vine doar din modul de alegere."
     },
     {
       "number": 4,
-      "title": "Ipoteze și criterii experimentale",
+      "title": "Ce verificăm",
       "seconds": 45,
-      "speaker_notes": "E0 este invariantul obligatoriu, verificat pe corpus, nu demonstrat formal. H1 rămâne de testat printr-o extensie controlată în M2. H2 nu afirmă viteză mai mare; raportăm timpi descriptivi. Memoria și construcția sunt viitoare."
+      "speaker_notes": "E0 trebuie să fie adevărat mereu: variantele dau aceleași rezultate. Îl verificăm cu teste, nu îl demonstrăm formal. H1 o testăm la M2, adăugând o politică nouă în ambele variante. La H2 nu pretindem că Strategy e mai rapid, doar raportăm timpii. H3 e tot pentru M2."
     },
     {
       "number": 5,
-      "title": "Arhitectură: variație locală, motor comun",
+      "title": "Arhitectura: o singură piesă diferă",
       "seconds": 60,
-      "speaker_notes": "Urmăriți săgețile. Game validează, construiește contextul și aplică actualizarea. Doar alegerea helperului diferă: ramuri directe versus obiect HintStrategy. RNG-ul aparține fiecărui Game. Grila, starea și interfața CLI nu sunt duplicate."
+      "speaker_notes": "Urmăriți săgețile. Game validează cererea, pregătește contextul și scrie literele. Singura diferență e cum se alege funcția: ramuri if/elif sau un obiect HintStrategy. Fiecare Game are propriul generator aleator. Grila, starea și CLI-ul sunt scrise o singură dată."
     },
     {
       "number": 6,
-      "title": "Demo: aceeași grilă, aceleași rezultate",
+      "title": "Demo: aceeași grilă, același rezultat",
       "seconds": 100,
-      "speaker_notes": "Aveți terminalele deschise. Rulați python3 -m crosswords --variant conditional --seed 42 --demo, apoi aceeași comandă cu strategy. Arătați C prima literă, R ales aleator pe 2A și completarea CODUL. Răspunsurile finale rezolvă grila. Antetul diferă, evenimentele nu. Dacă demo-ul live nu este disponibil, folosiți fallback-ul static vizibil și spuneți explicit că este static."
+      "speaker_notes": "Rulăm python3 -m crosswords --variant conditional --seed 42 --demo, apoi la fel cu strategy. Se vede C la primul indiciu, R ales la întâmplare pe 2A și apoi CODUL completat. Răspunsurile rămase rezolvă grila. Doar prima linie diferă între variante. Dacă terminalul nu merge, arătăm grila de pe slide și spunem că e o rulare anterioară."
     },
     {
       "number": 7,
-      "title": "Protocol comparabil și reproductibil",
+      "title": "Cum măsurăm",
       "seconds": 60,
-      "speaker_notes": "Corectitudinea este verificată înainte de măsurare pentru toate cele 256 jocuri și prin checksum după fiecare lot. Încălzirile nu intră în date. În fiecare pereche ordinea este aleasă reproductibil. Măsurăm întregul apel, nu numai dispatch-ul. Crearea obiectelor este exclusă; un posibil cost al Strategy rămâne de măsurat separat."
+      "speaker_notes": "Întâi verificăm că variantele dau același rezultat pe toate cele 256 de jocuri, apoi comparăm un hash al stării după fiecare rundă. Rundele de încălzire nu intră în rezultate. În fiecare pereche, ordinea variantelor e amestecată cu un seed fix. Măsurăm tot apelul de indiciu, nu doar alegerea politicii. Crearea obiectelor nu e inclusă; o vom măsura separat la M2."
     },
     {
       "number": 8,
-      "title": "Pilot M1: rezultate reale, exploratorii",
+      "title": "Prima măsurătoare (preliminară)",
       "seconds": 45,
-      "speaker_notes": "Citiți medianele și dispersia descriptivă. Raportul este mediana rapoartelor în perechi, nu raportul medianelor. Peste 1 înseamnă mai lent pentru Strategy în acest workload. Nu raportăm semnificație. O diferență mică sau negativă nu invalidează proiectul. Sursa este CSV-ul real, nu cifre inventate."
+      "speaker_notes": "Acestea sunt medianele și intervalul Q1–Q3. Raportul e mediana rapoartelor pe fiecare pereche, nu raportul dintre cele două mediane. Peste 1 înseamnă că Strategy a ieșit mai lent în acest test. Nu tragem concluzii statistice dintr-un singur calculator. Cifrele vin din results/m1/raw.csv."
     },
     {
       "number": 9,
-      "title": "Structura codului: un trade-off, nu un verdict",
+      "title": "Cât cod costă fiecare",
       "seconds": 40,
-      "speaker_notes": "Metricile sunt descriptive: linii ne-goale/ne-comentariu și clase incluzând Protocol. If se numără doar în select al dispatcherului, nu în tot programul. Strategy are mai multe clase și cod. Extensibilitatea nu este dovedită de numărul de ramuri: experimentul de extensie este planificat M2."
+      "speaker_notes": "Numerele descriu doar fișierele dispatcherelor: linii de cod, clase (cu Protocol) și noduri if din select. Strategy are mai mult cod și mai multe clase. Numărul de ramuri nu arată cât de ușor se extinde codul; asta testăm la M2."
     },
     {
       "number": 10,
-      "title": "Stadiu implementare și limite M1",
+      "title": "Unde suntem acum",
       "seconds": 45,
-      "speaker_notes": "Sunt realizate ambele variante, testele, demo-ul, scripturile și pilotul. Testele includ 100 seed-uri, comenzi mixte și erori. Codul și datele sunt locale cu tag M1; repository-ul personal privat a fost creat și release-ul se verifică la final. Nu afirmăm articol final sau contribuții umane neconfirmate. Studenții trebuie să valideze asistența AI."
+      "speaker_notes": "Avem ambele variante, testele, demo-ul, scripturile și prima măsurătoare. Testele folosesc 100 de seed-uri, comenzi amestecate și cazuri de eroare. Codul e într-un repository privat, cu tag-ul M1. Nu avem încă articolul și nici împărțirea muncii. Am folosit asistență AI, iar noi trebuie să înțelegem și să verificăm tot."
     },
     {
       "number": 11,
-      "title": "Contribuitori, progres real și plan până la M2",
+      "title": "Contribuitori și plan până la M2",
       "seconds": 45,
-      "speaker_notes": "Contribuitorii confirmați sunt Nadolu Alex și Dalya Tobescu. Sunt exact două persoane, fără nume de echipă. Repartizarea rolurilor și contribuțiile individuale rămân de completat; nu atribuim retroactiv activități sau ore. Pregătirea curentă este asistată AI. Sprinturile viitoare depind de calendarul cursului; M2 s12, M3 s14."
+      "speaker_notes": "Suntem doi, Nadolu Alex și Dalya Tobescu, fără nume de echipă. Cine ce a făcut încă nu am trecut; nu vrem să scriem ore sau sarcini pe care nu le putem susține. Pentru M1 am folosit asistență AI. Mai jos e planul: M2 în săptămâna 12, M3 în săptămâna 14."
     },
     {
       "number": 12,
-      "title": "Ce rămâne de demonstrat?",
+      "title": "Întrebarea rămasă",
       "seconds": 25,
-      "speaker_notes": "Încheiați cu întrebarea de extensibilitate, nu cu un verdict de viteză. Referințele sunt publice; suportul de curs nu este reprodus. Menționați asistența AI și responsabilitatea studentului de a înțelege și valida. Opriți prezentarea la 9:30 și rezervați două minute pentru întrebări."
+      "speaker_notes": "Încheiem cu întrebarea despre extensii, nu cu o concluzie despre viteză. Sursele sunt publice, iar suportul de curs nu e inclus. Repetăm că am folosit AI și că trebuie să înțelegem și să verificăm tot. Ne oprim la 9:30 și rămân două minute pentru întrebări."
     }
   ],
   "total_seconds": 570,

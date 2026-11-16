@@ -1,4 +1,4 @@
-"""Identical policy algorithms reused by both dispatch variants."""
+"""Algoritmii de indiciu, folosiți la fel de ambele variante."""
 
 from dataclasses import dataclass
 from random import Random

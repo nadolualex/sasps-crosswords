@@ -1,4 +1,4 @@
-"""Paired, repeatable full-engine hint workload; no statistical inference."""
+"""Benchmark pe perechi pentru apelurile de indiciu; fără inferență statistică."""
 
 import argparse
 import csv
@@ -140,10 +140,10 @@ def main() -> None:
     )
     c, s = (metrics[v]["median_ns_per_call"] / 1000 for v in VARIANTS)
     report = (
-        "# Rezultate M1 — exploratorii\n\n"
-        f"Rulare reală UTC: {summary['measured_at_utc']}.\n\n"
-        f"{args.repeats} perechi × {args.games} jocuri × {len(WORKLOAD)} apeluri; "
-        f"{args.warmups} încălziri per variantă. Seed: {args.seed}.\n\n"
+        "# Prima măsurătoare M1 (preliminară)\n\n"
+        f"Rulată la {summary['measured_at_utc']} (UTC).\n\n"
+        f"{args.repeats} perechi, {args.games} jocuri, {len(WORKLOAD)} apeluri pe joc; "
+        f"{args.warmups} runde de încălzire pe variantă. Seed: {args.seed}.\n\n"
         "| Variantă | Mediană µs/apel | Q1–Q3 µs/apel |\n"
         "|---|---:|---:|\n"
     )
@@ -152,15 +152,15 @@ def main() -> None:
         report += (f"| {variant} | {m['median_ns_per_call'] / 1000:.3f} | "
                    f"{m['q1_ns_per_call'] / 1000:.3f}–{m['q3_ns_per_call'] / 1000:.3f} |\n")
     report += (
-        f"\nRaport median pereche Strategy / condiționale: "
+        f"\nRaport median pe perechi, Strategy / if-elif: "
         f"{summary['median_paired_strategy_over_conditional']:.3f}. "
-        "Peste 1 înseamnă Strategy mai lent în acest workload.\n\n"
-        "Nu este o concluzie statistică și nu demonstrează superioritatea unui design. "
-        "Se măsoară întregul apel de indiciu, nu doar dispatch-ul. "
-        "Algoritmii și stările finale/RNG sunt identici; "
-        "verificările și crearea jocurilor sunt în afara cronometrării.\n\n"
-        "Date brute: `raw.csv`; mediu, parametri, limite și checksum: `summary.json`. "
-        "Aceeași comandă reproduce protocolul, nu valori temporale identice.\n"
+        "Peste 1 înseamnă că Strategy a ieșit mai lent în acest test.\n\n"
+        "Rezultatul nu e o concluzie statistică și nu arată că un design e mai bun decât altul. "
+        "Se măsoară tot apelul de indiciu, nu doar alegerea politicii. "
+        "Algoritmii, starea finală și numerele aleatoare sunt la fel în ambele variante; "
+        "crearea jocurilor și verificările nu sunt cronometrate.\n\n"
+        "Datele brute sunt în `raw.csv`, iar parametrii, limitele și checksum-ul în `summary.json`. "
+        "Aceeași comandă repetă protocolul, dar nu va da exact aceiași timpi.\n"
     )
     (args.output / "REPORT.md").write_text(report, encoding="utf-8")
     print(f"Rezultate: {args.output}; conditional={c:.3f} us; strategy={s:.3f} us")
