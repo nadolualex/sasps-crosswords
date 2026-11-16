@@ -1,44 +1,39 @@
-# Crosswords: Strategy sau if/elif?
+# Crosswords: Strategy or if/elif?
 
-Autori: Nadolu Alex și Dalya Tobescu (SASPS, Milestone 1).
+Nadolu Alex and Dalya Tobescu. SASPS, milestone 1.
 
-Același joc de cuvinte încrucișate, în două variante. Grila, regulile și indiciile
-sunt la fel. Diferă doar cum e aleasă politica de indiciu: `if/elif` sau Strategy.
+Same crossword, two versions. The grid, the rules, and the hint algorithms are shared. The only difference is how the game picks a hint: `if/elif`, or the Strategy pattern.
 
-La M1 avem prototipul, testele și o primă măsurătoare. Restul experimentelor și
-articolul rămân pentru M2 și M3.
+This is M1: a working prototype, tests, and a first timing run. The rest of the experiments, and the paper, are for M2 and M3.
 
-## Rulare
+## Run
 
-Python 3.10 sau mai nou, fără pachete externe pentru joc, teste și benchmark.
+Python 3.10 or newer. The game, the tests, and the benchmark use only the standard library.
 
 ```bash
 python3 -m crosswords --variant strategy --seed 42
 python3 -m crosswords --variant conditional --seed 42
 ```
 
-Comenzi în joc: `clues`, `show`, `answer 1A CAL`, `hint 2A random`, `quit`.
-Politicile de indiciu sunt `first` (prima literă lipsă), `random` (o literă la
-întâmplare) și `word` (tot cuvântul). Un `-` într-un răspuns șterge litera de
-pe poziția respectivă.
+Commands: `clues`, `show`, `answer 1A CAL`, `hint 2A random`, `quit`.
 
-Câteva reguli:
+Hint policies are `first` (first missing letter), `random` (one letter at random), and `word` (the whole word). A `-` in an answer clears that cell.
 
-- literele date prin indiciu rămân blocate, iar un răspuns care le contrazice este respins;
-- un indiciu corectează și literele greșite, dar nu atinge literele deja corecte;
-- un indiciu pe un cuvânt rezolvat nu face nimic și nu consumă numere aleatoare;
-- grila e câștigată când toate cele 11 celule sunt corecte.
+- A hinted letter stays locked. An answer that contradicts it is rejected.
+- A hint fixes wrong letters and leaves correct ones alone.
+- A hint on a solved word does nothing, and does not draw a random number.
+- The grid is won when all 11 cells are correct.
 
-Demonstrație fără input, care rezolvă grila:
+Demo, no typing. It solves the grid:
 
 ```bash
 python3 -m crosswords --variant conditional --seed 42 --demo
 python3 -m crosswords --variant strategy --seed 42 --demo
 ```
 
-Grila 5×5 are patru definiții: CAL, DOR, LAC și CODUL.
+The grid is 5×5, with four entries: CAL, DOR, LAC, and CODUL.
 
-## Teste și măsurători
+## Tests and timings
 
 ```bash
 python3 -m unittest discover -v
@@ -46,22 +41,15 @@ python3 -m scripts.benchmark --repeats 30 --games 256 --warmups 3 --seed 2026 --
 python3 -m scripts.code_metrics
 ```
 
-Comanda de benchmark scrie în `results/reproduced`, ca să nu suprascrie datele
-din `results/m1`. Timpii diferă de la o rulare la alta; verificarea stării și a
-numerelor aleatoare trebuie să iasă la fel.
+The benchmark writes to `results/reproduced`, so it does not overwrite `results/m1`. Times change from run to run. The final state and the random numbers should not.
 
-Prima măsurătoare (30 de perechi, 256 de jocuri, 8 apeluri de indiciu pe joc) e
-descrisă în [`results/m1/REPORT.md`](results/m1/REPORT.md). A rulat pe un singur
-calculator, într-un singur scenariu, așa că nu tragem concluzii din ea. Detalii în
-[`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
+The first run (30 pairs, 256 games, 8 hint calls per game) is in [`results/m1/REPORT.md`](results/m1/REPORT.md). One machine, one workload. Not a conclusion. See [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
 
-## Prezentarea
+## Slides
 
-Fișierul pentru susținere este [`presentation/SASPS_M1_Crosswords.pptx`](presentation/SASPS_M1_Crosswords.pptx):
-12 slide-uri cu note, pentru 9 minute și 30 de secunde. PDF-ul din același folder
-e o copie a slide-urilor, nu articolul de la M3.
+Talk from [`presentation/SASPS_M1_Crosswords.pptx`](presentation/SASPS_M1_Crosswords.pptx): 12 slides with notes, planned for 9 minutes 30 seconds. The PDF in the same folder is a copy of the slides, not the M3 paper.
 
-Ca să o regenerăm, avem nevoie de `python-pptx`, `reportlab` și `pypdf`:
+Rebuild needs `python-pptx`, `reportlab`, and `pypdf`:
 
 ```bash
 python3 -m venv .venv
@@ -70,24 +58,19 @@ python3 -m venv .venv
 .venv/bin/python -m scripts.verify_release
 ```
 
-`verify_release` rulează testele și demo-urile, recalculează sumarul din datele
-brute, verifică PPTX-ul și PDF-ul și rescrie `results/m1/validation.json`.
+`verify_release` runs the tests and demos, checks the raw results, checks the PPTX and PDF, and rewrites `results/m1/validation.json`.
 
-## Structura proiectului
+## Layout
 
-| Cale | Ce conține |
+| Path | What is there |
 |---|---|
-| `crosswords/` | motorul, grila, politicile și cele două variante de selecție |
-| `tests/` | teste de reguli, erori și echivalență între variante |
-| `scripts/` | benchmark, metrici de cod, generator de prezentare, verificare |
-| `results/m1/` | date brute, rapoarte și loguri de la M1 |
-| `docs/` | metodologie, arhitectură, plan, contribuții |
-| `presentation/` | PPTX, PDF cu slide-urile, manifest |
+| `crosswords/` | engine, grid, policies, both ways of picking a hint |
+| `tests/` | rules, errors, and checks that the two versions match |
+| `scripts/` | benchmark, code counts, slide builder, release check |
+| `results/m1/` | raw timings and the M1 reports |
+| `docs/` | methodology, architecture, plan, contributions |
+| `presentation/` | PPTX, slide PDF, manifest |
 
-## Git
+Code: https://github.com/nadolualex/sasps-crosswords. The M1 snapshot is the `M1` tag. M2 and M3 tags come when we get there. The course handout is not in the repo.
 
-Codul e pe https://github.com/nadolualex/sasps-crosswords. Versiunea de la M1 are
-tag-ul `M1`. Tag-urile M2 și M3 le punem când ajungem acolo. Suportul de curs nu
-e în repository.
-
-Împărțirea muncii e în [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md).
+Who did what is in [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md).
